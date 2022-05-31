@@ -1,8 +1,12 @@
 /* eslint-disable prettier/prettier */
-import * as moongose from 'mongoose';
+import mongoose, * as moongose from 'mongoose';
+import { User } from '../shared/user';
 
 export const UserSchema = new moongose.Schema({
+    username: String,
     name: String,
-    occupation: String,
+    password: String,
+    
 
 })
+export type UserDocument = User & mongoose.Document;

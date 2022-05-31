@@ -1,7 +1,8 @@
-import { Document } from "mongoose";
 
 
-export class User extends Document{
+export class User{
+    _id: string;
+    username: string;
     name: string;
-    occupation: string;
+    password: string;
 }

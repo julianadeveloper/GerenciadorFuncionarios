@@ -1,7 +1,12 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, Post } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { createUser } from './dto/create-user.dto';
+import { getUserId } from './dto/get-user.dto';
+import { updateUser } from './dto/update-user.dto';
 import { User } from './user';
+import { UserDocument } from '../schemas/user.schema';
+
 
 @Injectable()
 export class Userservice {
@@ -9,22 +14,35 @@ export class Userservice {
 
   async listUsers(): Promise<User[]> {
       return await this.userModel.find().exec();
-      throw   'Não foi possível listar usuário.'
-    
   }
 
-  async registerNewUser(user: User): Promise<User> {
+  async searchUsername(username: string): Promise<User> {
+    return await this.userModel.findOne({username});
+  }
+
+  
+
+  async registerNewUser(user: createUser): Promise<createUser> {
+   const userFound =  await this.userModel.findOne({username:user.username});
+    if ( userFound){
+      throw new BadRequestException('Usuario ja existe.');  
+    }
     const userCreate = new this.userModel(user);
+
+
     return await userCreate.save();
   }
 
-  async listUserId(id: string): Promise<User> {
+  async listUserId(id: string): Promise<getUserId> {
     return this.userModel.findById(id).exec();
   }
 
-  async changeUserCredentials(id: String, user: User): Promise<User> {
-    return this.userModel.findByIdAndUpdate(id, user, { new: true }).exec();
+
+  async changeUserCredentials(id: String, userUpdate: updateUser): Promise<updateUser> {
+    return this.userModel.findByIdAndUpdate(id, userUpdate, { new: true }).exec();
   }
+
+
   async deleteUsers(ids: string[]) {
     Promise.all(
       ids.map(async (id) => {
@@ -32,4 +50,15 @@ export class Userservice {
       }),
     );
   }
+//login
+
+  async findOne(username: string): Promise<UserDocument | undefined> {
+    return this.userModel.findOne({username : username});
+  }
+
+
 }
+function _id(_id: any) {
+  throw new Error('Function not implemented.');
+}
+
