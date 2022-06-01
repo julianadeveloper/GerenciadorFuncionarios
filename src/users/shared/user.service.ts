@@ -1,11 +1,13 @@
 import { BadRequestException, Injectable, Post } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { createUser } from './dto/create-user.dto';
-import { getUserId } from './dto/get-user.dto';
-import { updateUser } from './dto/update-user.dto';
-import { User } from './user';
+import { createUser } from '../shared/dto/create-user.dto';
+import { getUserId } from '../shared/dto/get-user.dto';
+import { updateUser } from '../shared/dto/update-user.dto';
+import { User } from '../shared/user.entity';
 import { UserDocument } from '../schemas/user.schema';
+import { Criptography } from '.././shared/utils/bcrypt';
+import * as bcrypt from 'bcrypt';
 
 
 @Injectable()
@@ -23,14 +25,17 @@ export class Userservice {
   
 
   async registerNewUser(user: createUser): Promise<createUser> {
-   const userFound =  await this.userModel.findOne({username:user.username});
+    const userFound =  await this.userModel.findOne({username:user.username});    
     if ( userFound){
       throw new BadRequestException('Usuario ja existe.');  
     }
+   user.password = await Criptography.encodePwd(user.password);
+
     const userCreate = new this.userModel(user);
-
-
     return await userCreate.save();
+  }
+  userpassword(userpassword: any, arg1: number) {
+    throw new Error('Method not implemented.');
   }
 
   async listUserId(id: string): Promise<getUserId> {
