@@ -49,7 +49,7 @@ export class Userservice {
       ids.map(async (id) => {
         await this.userModel.findOneAndDelete({ _id: id }).exec();
       }),
-    );
+    ); 
   }
   //login
 
