@@ -12,4 +12,6 @@ export class createUser {
 })
     @IsNotEmpty({message: 'Preencha a senha'})
     password: string;
+    
+    role: string;
 }

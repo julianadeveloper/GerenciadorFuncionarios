@@ -1,10 +1,10 @@
 
 import { IsNotEmpty } from "class-validator";
 
-export class getUserId {
+export class getUser {
     
-    @IsNotEmpty({message: 'id obrigatorio'})
-    _id: string;
+    @IsNotEmpty({message: 'username obrigatorio'})
+    username: string;
 
     
 
