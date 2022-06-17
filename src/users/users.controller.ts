@@ -12,8 +12,6 @@ import {
 } from '@nestjs/common';
 import { ApiBody } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
-import { Roles } from 'src/auth/roles.decorator';
-import { RolesGuard } from 'src/auth/roles.guard';
 import { createUser } from './shared/dto/create-user.dto';
 import { getUser } from './shared/dto/get-user.dto';
 import { updateUser } from './shared/dto/update-user.dto';
@@ -25,14 +23,18 @@ import { Userservice } from './shared/user.service';
 export class UsersController {
   constructor(private readonly userService: Userservice) {}
   @Get()
-  async listUsers(User): Promise<User[]> {
-    return await this.userService.listUsers();
+  async listUsers(@Query() pageFilter: any): Promise<User[]> {
+    return await this.userService.listUsers(pageFilter);
   }
 
-  @UseGuards(RolesGuard)
-  @Get(':username')
-  async listUserId(@Param('username') username: string): Promise<getUser> {
-    return await this.userService.listUserId(username);
+  @Get(':id')
+  async listUserId(@Param('id') _id: string): Promise<User> {
+    return await this.userService.listUserId(_id);
+  }
+
+  @Get('username')
+  async listUserGet(@Param('username') username: string): Promise<getUser> {
+    return await this.userService.listUserGet(username);
   }
 
   @Post()
@@ -45,9 +47,8 @@ export class UsersController {
   @Put(':id')
   async changeUserCredentials(
     @Param('id') id: string,
-    @Body() userUpdate: updateUser,
-  ) {
-    return await this.userService.changeUserCredentials(id, userUpdate);
+    @Body() userUpdate: updateUser,) {
+      return await this.userService.changeUserCredentials(id, userUpdate,);
   }
 
   @UseGuards(JwtAuthGuard)

@@ -5,6 +5,7 @@ export class getUser {
     
     @IsNotEmpty({message: 'username obrigatorio'})
     username: string;
+    name: string;
 
     
 

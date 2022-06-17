@@ -26,10 +26,10 @@ export class AuthService {
     // vai ter o bjeto do user.
     // no objeto do user tem o role (user.role)
 
-    const user = await this.userService.listUserId(data.username);
+    const user = await this.userService.listUserGet(data.username);
 
     const payload = { username: data.username, id: user._id, role: user.role };
-
+    
     return {
       access_token: this.jwtService.sign(payload),
     };
