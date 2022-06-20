@@ -48,16 +48,16 @@ export class UsersController {
 
   @UseGuards(JwtAuthGuard)
   @UseGuards(RolesGuard)
-
   @Put(':id')
   async changeUserCredentials(
     @Param('id') id: string,
-    @Body() userUpdate: updateUser,) {
-      return await this.userService.changeUserCredentials(id, userUpdate,);
+    @Body() userUpdate: updateUser,
+  ) {
+    return await this.userService.changeUserCredentials(id, userUpdate);
   }
 
   @UseGuards(JwtAuthGuard)
-@UseGuards(RolesGuard)
+  @UseGuards(RolesGuard)
   @Delete()
   async deleteUser(@Query('ids') ids: string) {
     return await this.userService.deleteUsers(ids.split(','));
@@ -66,4 +66,3 @@ export class UsersController {
 function canActivate(canActivate: any) {
   throw new Error('Function not implemented.');
 }
-
