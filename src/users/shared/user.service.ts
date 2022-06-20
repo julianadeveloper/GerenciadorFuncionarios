@@ -2,7 +2,6 @@ import { BadRequestException, Injectable, Post } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { createUser } from '../shared/dto/create-user.dto';
-import { getUser } from '../shared/dto/get-user.dto';
 import { updateUser } from '../shared/dto/update-user.dto';
 import { User } from '../shared/user';
 import { UserDocument } from '../schemas/user.schema';
@@ -19,8 +18,8 @@ export class Userservice {
     return await this.userModel.find(query).exec();
   }
 
-  async listUserId( userId: string) : Promise<User>{
-    return await this.userModel.findById(userId);
+  async listUserId( id: string) : Promise<User>{
+    return await this.userModel.findById(id);
   }
   async listUserGet(username: string) {
     return await this.userModel.findOne({ username: username }, {});

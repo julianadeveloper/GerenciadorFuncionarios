@@ -9,9 +9,12 @@ import {
   Query,
   SetMetadata,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { ApiBody } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { Roles } from 'src/auth/roles/roles.decorator';
+import { RolesGuard } from 'src/auth/roles/roles.guard';
 import { createUser } from './shared/dto/create-user.dto';
 import { getUser } from './shared/dto/get-user.dto';
 import { updateUser } from './shared/dto/update-user.dto';
@@ -44,6 +47,8 @@ export class UsersController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @UseGuards(RolesGuard)
+
   @Put(':id')
   async changeUserCredentials(
     @Param('id') id: string,
@@ -52,9 +57,13 @@ export class UsersController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @SetMetadata('roles', ['admin'])
+@UseGuards(RolesGuard)
   @Delete()
   async deleteUser(@Query('ids') ids: string) {
     return await this.userService.deleteUsers(ids.split(','));
   }
 }
+function canActivate(canActivate: any) {
+  throw new Error('Function not implemented.');
+}
+
