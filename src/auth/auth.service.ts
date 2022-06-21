@@ -28,8 +28,8 @@ export class AuthService {
 
     const user = await this.userService.listUserGet(data.username);
     const payload = { username: data.username, id: user._id, role: user.role };
-    console.log(payload)
     
+    console.log(payload)
     return { role: user.role, 
       access_token: this.jwtService.sign(payload),
     };
