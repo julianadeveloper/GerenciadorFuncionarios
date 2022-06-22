@@ -4,7 +4,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
-import { SocketTestModule } from './socket-test/socket-test.module';
+import { SocketTestModule } from './socket/socket-test.module';
+import { AppGateway } from './socket/socket-test.gateway';
 
 
 @Module({
@@ -17,6 +18,6 @@ import { SocketTestModule } from './socket-test/socket-test.module';
     SocketTestModule,
   ],
   controllers: [ AppController],
-  providers: [AppService],
+  providers: [AppService, AppGateway],
 })
 export class AppModule {}

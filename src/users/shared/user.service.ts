@@ -41,7 +41,6 @@ export class Userservice {
     userUpdate: updateUser,
   ): Promise<updateUser> {
     userUpdate.password = await Criptography.encodePwd(userUpdate.password);
-    
     return this.userModel
 
       .findByIdAndUpdate(id, userUpdate, { new: true })
