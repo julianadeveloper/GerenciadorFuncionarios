@@ -1,12 +1,13 @@
 import {
   Body,
+  ClassSerializerInterceptor,
   Controller,
   Delete,
   Get,
   Param,
   Post,
   Put,
-  Query, UseGuards
+  Query, UseGuards, UseInterceptors
 } from '@nestjs/common';
 import { ApiBody } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
@@ -41,7 +42,8 @@ export class UsersController {
   async registerNewUser(@Body() user: UserDto): Promise<createUser> {
     return await this.userService.registerNewUser(user);
   }
-
+  
+  @UseInterceptors(ClassSerializerInterceptor)
   @UseGuards(JwtAuthGuard)
   @UseGuards(RolesGuard)
   @Put(':id')

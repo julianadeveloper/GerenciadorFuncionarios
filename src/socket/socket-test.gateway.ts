@@ -1,10 +1,10 @@
 import {
   ConnectedSocket,
   MessageBody,
+  OnGatewayConnection,
   SubscribeMessage,
   WebSocketGateway,
   WebSocketServer,
-  WsResponse,
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
 
@@ -17,17 +17,26 @@ import { Server, Socket } from 'socket.io';
     },
   },
 )
-export class AppGateway {
+export class AppGateway implements OnGatewayConnection {
+  handleConnection(client: any, ...args: any[]) {
+    const sessionStorage = 
+    console.log(client.id) //retorna o socket id do cliente (não é o id do banco!)
+  }
+
+  //método para emitir meus eventos.
   @WebSocketServer()
   server: Server;
 
+
+  //ouvir meus eventos.
   @SubscribeMessage('home')
   handleEvent(
-    @MessageBody() data: string,
-    @ConnectedSocket() client: Socket,
-  ): string {
-    console.log('teste');
-    return data;
+    client: Socket,
+    
+    @ConnectedSocket()  data: string,
+    ) {
+            
+    
+    return client;
   }
-
 }

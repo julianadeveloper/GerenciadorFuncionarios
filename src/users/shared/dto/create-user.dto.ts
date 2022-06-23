@@ -7,9 +7,7 @@ export class createUser {
     @IsNotEmpty({message: 'Nome de usuário obrigatório'})
     name: string;
 
-@Exclude({
-    toPlainOnly: true
-})
+
     @IsNotEmpty({message: 'Preencha a senha'})
     password: string;
     

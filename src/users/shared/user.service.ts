@@ -15,11 +15,11 @@ export class Userservice {
     const query = {};
     if (pageFilter.search)
       query['username'] = { $regex: pageFilter.search, $options: 'i' };
-    return await this.userModel.find(query).exec();
+    return await this.userModel.find(query, {password: 0}).exec();
   }
 
   async listUserId( id: string) : Promise<User>{
-    return await this.userModel.findById(id);
+    return await this.userModel.findById(id, {password: 0});
   }
   async listUserGet(username: string) {
     return await this.userModel.findOne({ username: username }, {});

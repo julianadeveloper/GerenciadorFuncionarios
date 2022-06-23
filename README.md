@@ -76,3 +76,4 @@ Nest is [MIT licensed](LICENSE).
 ## Web Socket 
 
 Configurada a conexão http entre servidor e cliente.
+metodo de logout :passar id do socket e emitir evento de logout 
