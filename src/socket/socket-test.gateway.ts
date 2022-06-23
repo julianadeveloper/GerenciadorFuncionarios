@@ -1,13 +1,11 @@
+import { Injectable } from '@nestjs/common';
 import {
-  ConnectedSocket,
-  MessageBody,
-  OnGatewayConnection,
-  SubscribeMessage,
-  WebSocketGateway,
-  WebSocketServer,
+  OnGatewayInit, WebSocketGateway,
+  WebSocketServer
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
 
+@Injectable()
 @WebSocketGateway(
   3001,
 
@@ -17,26 +15,34 @@ import { Server, Socket } from 'socket.io';
     },
   },
 )
-export class AppGateway implements OnGatewayConnection {
-  handleConnection(client: any, ...args: any[]) {
-    const sessionStorage = 
-    console.log(client.id) //retorna o socket id do cliente (não é o id do banco!)
-  }
-
-  //método para emitir meus eventos.
+export class AppGateway implements OnGatewayInit {
   @WebSocketServer()
   server: Server;
 
+  afterInit(server: Server) {
+    server.on('connect', (socket: Socket) => {
+      console.log('connected: ', socket.id);
+    });
 
-  //ouvir meus eventos.
-  @SubscribeMessage('home')
-  handleEvent(
-    client: Socket,
-    
-    @ConnectedSocket()  data: string,
-    ) {
-            
-    
-    return client;
+    server.on('disconnect', (socket: Socket) => {
+      console.log('socket disconnected: ', socket.id);
+    });
   }
+
+  emitRemoveUser(id: string) {
+    this.server.emit('removed-user', { id: id });
+  }
+
+  // //método para emitir meus eventos.
+
+  // //ouvir meus eventos.
+  // @SubscribeMessage('connected')
+  // handleEvent(
+  //   client: Socket,
+
+  //   @ConnectedSocket() data: string,
+  // ) {
+
+  //   return client;
+  // }
 }

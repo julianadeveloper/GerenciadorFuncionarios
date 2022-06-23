@@ -6,20 +6,24 @@ import { updateUser } from '../shared/dto/update-user.dto';
 import { User } from '../shared/user';
 import { UserDocument } from '../schemas/user.schema';
 import { Criptography } from '.././shared/utils/bcrypt';
+import { AppGateway } from 'src/socket/socket-test.gateway';
 
 @Injectable()
 export class Userservice {
-  constructor(@InjectModel('User') private readonly userModel: Model<User>) {}
+  constructor(
+    @InjectModel('User') private readonly userModel: Model<User>,
+    private readonly socketGateway: AppGateway,
+  ) {}
 
   async listUsers(pageFilter: any): Promise<User[]> {
     const query = {};
     if (pageFilter.search)
       query['username'] = { $regex: pageFilter.search, $options: 'i' };
-    return await this.userModel.find(query, {password: 0}).exec();
+    return await this.userModel.find(query, { password: 0 }).exec();
   }
 
-  async listUserId( id: string) : Promise<User>{
-    return await this.userModel.findById(id, {password: 0});
+  async listUserId(id: string): Promise<User> {
+    return await this.userModel.findById(id, { password: 0 });
   }
   async listUserGet(username: string) {
     return await this.userModel.findOne({ username: username }, {});
@@ -34,7 +38,6 @@ export class Userservice {
     const userCreate = new this.userModel(user);
     return await userCreate.save();
   }
-
 
   async changeUserCredentials(
     id: String,
@@ -51,6 +54,7 @@ export class Userservice {
     Promise.all(
       ids.map(async (id) => {
         await this.userModel.findOneAndDelete({ _id: id }).exec();
+        this.socketGateway.emitRemoveUser(id);
       }),
     );
   }
@@ -60,4 +64,3 @@ export class Userservice {
     return this.userModel.findOne({ username: username });
   }
 }
-
