@@ -6,6 +6,7 @@ import { UsersModule } from '../users/users.module';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from './constants';
+import { AppGateway } from 'src/socket/socket-test.gateway';
 
 
 @Module({
@@ -18,6 +19,7 @@ import { jwtConstants } from './constants';
     }),
   ],
   providers: [
+    AppGateway,
     AuthService,
     LocalStrategy,
     JwtStrategy,

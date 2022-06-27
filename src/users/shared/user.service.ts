@@ -33,9 +33,14 @@ export class Userservice {
     if (userFound) {
       throw new BadRequestException('Usuario ja existe.');
     }
+
+
     user.password = await Criptography.encodePwd(user.password);
 
     const userCreate = new this.userModel(user);
+    
+    this.socketGateway.emitnewUser(userCreate)
+
     return await userCreate.save();
   }
 
@@ -43,11 +48,16 @@ export class Userservice {
     id: String,
     userUpdate: updateUser,
   ): Promise<updateUser> {
-    userUpdate.password = await Criptography.encodePwd(userUpdate.password);
-    return this.userModel
 
-      .findByIdAndUpdate(id, userUpdate, { new: true })
-      .exec();
+  
+    
+    userUpdate.password = await Criptography.encodePwd(userUpdate.password);
+    const updated =  await this.userModel
+    .findByIdAndUpdate(id, userUpdate, { new: true },)
+    .exec();
+    
+    this.socketGateway.emitupdateUser('id');
+    return updated
   }
 
   async deleteUsers(ids: string[]) {

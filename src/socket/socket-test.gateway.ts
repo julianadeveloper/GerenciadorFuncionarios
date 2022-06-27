@@ -1,9 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import {
-  OnGatewayInit, WebSocketGateway,
-  WebSocketServer
+  OnGatewayInit,
+  WebSocketGateway,
+  WebSocketServer,
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
+import { User } from 'src/users/shared/user';
 
 @Injectable()
 @WebSocketGateway(
@@ -29,20 +31,19 @@ export class AppGateway implements OnGatewayInit {
     });
   }
 
+  emitupdateUser(id: string) {
+    this.server.emit('update', { id: id });
+    console.log('update back');
+  }
   emitRemoveUser(id: string) {
     this.server.emit('removed-user', { id: id });
   }
+  emitnewUser(user: User) {
+    this.server.emit('new-user', user);
+  }
 
-  // //método para emitir meus eventos.
-
-  // //ouvir meus eventos.
-  // @SubscribeMessage('connected')
-  // handleEvent(
-  //   client: Socket,
-
-  //   @ConnectedSocket() data: string,
-  // ) {
-
-  //   return client;
-  // }
+  emitUserLogged(user: User) {
+    this.server.emit('is-logged');
+    console.log('islogged');
+  }
 }
