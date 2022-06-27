@@ -7,13 +7,14 @@ import { UsersModule } from './users/users.module';
 import { SocketTestModule } from './socket/socket-test.module';
 import { AppGateway } from './socket/socket-test.gateway';
 
-
+//'mongodb+srv://juliana:root@cluster0.1tqbr.mongodb.net/funcionarios?retryWrites=true&w=majority', 
 @Module({
   imports: [
     AuthModule,
     UsersModule,
     MongooseModule.forRoot(
-      'mongodb+srv://juliana:root@cluster0.1tqbr.mongodb.net/funcionarios?retryWrites=true&w=majority',
+      'mongodb://juliana:root@host:27017/funcionarios?authSource=admin',
+      // 'mongodb+srv://juliana:root@cluster0.1tqbr.mongodb.net/funcionarios?retryWrites=true&w=majority',
     ),
     SocketTestModule,
   ],

@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+
+  app:
+    build: .
+    entrypoint: sh ./.docker/entrypoint.sh
+    container_name: app-teste
+    ports:
+      - 3000:3000
+    restart: always
+    tty: true
+    networks:
+      - api-mongo
+    volumes:
+      - ./:/home/app
+  db:
+    image: mongo
+    ports: 
+      - 30000:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+    tty: true
+    networks: 
+      - api-mongo
+networks:    
+  api-mongo:
