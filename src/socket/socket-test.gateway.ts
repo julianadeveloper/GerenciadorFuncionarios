@@ -4,6 +4,7 @@ import {
   WebSocketGateway,
   WebSocketServer,
 } from '@nestjs/websockets';
+import { userInfo } from 'os';
 import { Server, Socket } from 'socket.io';
 import { User } from 'src/users/shared/user';
 
