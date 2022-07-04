@@ -4,7 +4,6 @@ import {
   WebSocketGateway,
   WebSocketServer,
 } from '@nestjs/websockets';
-import { userInfo } from 'os';
 import { Server, Socket } from 'socket.io';
 import { User } from 'src/users/shared/user';
 
@@ -43,8 +42,8 @@ export class AppGateway implements OnGatewayInit {
     this.server.emit('new-user', user);
   }
 
-  emitUserLogged(user: User) {
-    this.server.emit('is-logged');
+  emitUserLogged(username: User) {
+    this.server.emit('is-logged', {username: username});
     console.log('islogged');
   }
 }

@@ -7,5 +7,6 @@ export class User {
   password: string;
   role: string;
   WebSocket: string;
+  sessionId: number;
 
 }

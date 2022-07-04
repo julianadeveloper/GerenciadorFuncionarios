@@ -22,6 +22,8 @@ import { Userservice } from './shared/user.service';
 @Controller('users')
 export class UsersController {
   constructor(private readonly userService: Userservice) {}
+
+
   @Get()
   async listUsers(@Query() pageFilter: any): Promise<User[]> {
     return await this.userService.listUsers(pageFilter);
@@ -36,6 +38,7 @@ export class UsersController {
   async listUserGet(@Param('username') username: string): Promise<getUser> {
     return await this.userService.listUserGet(username);
   }
+
 
   @Post()
   @ApiBody({ type: UserDto })

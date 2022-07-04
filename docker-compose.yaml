@@ -19,26 +19,4 @@ services:
       # - front
     volumes:
       - ./:/home/app
-    # depends_on:
-    #   - db
-  # db:
-  #   image: mongo
-  #   ports:
-  #     - 30000:27017
-  #   environment:
-  #     MONGO_INITDB_ROOT_USERNAME: juliana
-  #     MONGO_INITDB_ROOT_PASSWORD: root1
-  #     MONGO_INITDB_DATABASE: admin
-  #   tty: true
-  #   networks:
-  #     - api-mongo
-  # ws:
-  #   image: websocket
-  #   ports:
-  #     - 3001:3001
-  #   restart: always
-  #   tty: true
-  #   networks:
-  #     - app-teste
     
-
