@@ -8,7 +8,6 @@ export const UserSchema = new moongose.Schema({
     password: String,
     role: String,
     WebSocket: String,
-    sessionId: String,
 
 })
 export type UserDocument = User & mongoose.Document;

@@ -68,12 +68,4 @@ export class Userservice {
   async findOne(username: string): Promise<UserDocument | undefined> {
     return this.userModel.findOne({ username: username });
   }
-
-  //id-sessão-usuario
-  async logoutUser(user: User): Promise<User> {
-    this.socketGateway.emitUserLogged(user)
-
-    return this.userModel.findOne({username: user.username});
-    
-  }
 }

@@ -43,7 +43,7 @@ export class AppGateway implements OnGatewayInit {
   }
 
   emitUserLogged(username: User) {
-    this.server.emit('is-logged', {username: username});
-    console.log('islogged');
+    this.server.emit('is-logged', {username})
+    console.log('user logado');
   }
 }

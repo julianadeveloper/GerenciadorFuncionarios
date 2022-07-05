@@ -14,9 +14,9 @@ services:
       - 3001:3001
     restart: always
     tty: true
-    networks:
-      - api-mongo
-      # - front
+    # networks:
+    #   - api-mongo
+    #   # - front
     volumes:
       - ./:/home/app
     
