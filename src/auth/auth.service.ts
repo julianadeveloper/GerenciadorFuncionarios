@@ -24,18 +24,26 @@ export class AuthService {
     return null;
   }
 
-  async login(data: any) {
+
+
+  
+
+    async login(data: any) {
     const user = await this.userService.listUserGet(data.username);
+    const { id = user._id, username, role } = user;
     const payload = {
-      username: data.username,
-      id: user._id,
-      role: user.role,
+      id, username, role
     };
     
+    this.socketId.emitUserLogged(user)
+    console.log('cheguei')
+
     return {
-      role: user.role,
-      access_token: this.jwtService.sign(payload),
-    };
+    role,
+    access_token: this.jwtService.sign(payload),
+    username,
+    _id: id,
+  };
   }
 
 }

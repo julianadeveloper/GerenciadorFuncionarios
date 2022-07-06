@@ -16,7 +16,6 @@ export class RolesGuard implements CanActivate {
 
       
       const { role } = this.jwtService.decode(token.split(' ')[1]) as { role: string }
-      console.log('cheguei ate o roles guard')
       if(role === 'admin'){
         return true;
       } else {
