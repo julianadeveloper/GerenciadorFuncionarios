@@ -1,5 +1,3 @@
-
-
 export class User {
   _id: string;
   username: string;
@@ -7,5 +5,4 @@ export class User {
   password: string;
   role: string;
   WebSocket: string;
-
 }

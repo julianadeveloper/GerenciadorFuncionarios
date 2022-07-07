@@ -7,7 +7,9 @@ import {
   Param,
   Post,
   Put,
-  Query, UseGuards, UseInterceptors
+  Query,
+  UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { ApiBody } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
@@ -22,7 +24,6 @@ import { Userservice } from './shared/user.service';
 @Controller('users')
 export class UsersController {
   constructor(private readonly userService: Userservice) {}
-
 
   @Get()
   async listUsers(@Query() pageFilter: any): Promise<User[]> {
@@ -39,13 +40,12 @@ export class UsersController {
     return await this.userService.listUserGet(username);
   }
 
-
   @Post()
   @ApiBody({ type: UserDto })
-  async registerNewUser(@Body() user: UserDto): Promise<createUser> {
-    return await this.userService.registerNewUser(user);
+  async registerUser(@Body() user: UserDto): Promise<createUser> {
+    return await this.userService.registerUser(user);
   }
-  
+
   @UseInterceptors(ClassSerializerInterceptor)
   @UseGuards(JwtAuthGuard)
   @UseGuards(RolesGuard)

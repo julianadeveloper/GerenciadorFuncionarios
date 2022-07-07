@@ -8,10 +8,11 @@ export class AuthGuard implements CanActivate {
   ): boolean | Promise<boolean> | Observable<boolean> {
     const request = context.switchToHttp().getRequest();
     return validateRequest(request);
-
   }
 }
 
-function validateRequest(request: any): boolean | Promise<boolean> | Observable<boolean> {
-    throw new Error('Function not implemented.');
+function validateRequest(
+  request: Request,
+): boolean | Promise<boolean> | Observable<boolean> {
+  throw new Error('Function not implemented.');
 }

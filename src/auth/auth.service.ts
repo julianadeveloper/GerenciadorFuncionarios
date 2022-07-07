@@ -3,7 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import { Injectable } from '@nestjs/common';
 import { Criptography } from 'src/users/shared/utils/bcrypt';
 import { AppGateway } from 'src/socket/socket-test.gateway';
-import { loginUser } from 'src/users/shared/dto/login.dto';
+import { User } from 'src/users/shared/user';
 
 @Injectable()
 export class AuthService {
@@ -13,7 +13,7 @@ export class AuthService {
     private readonly socketId: AppGateway,
   ) {}
 
-  async validateUser(username: string, password: string): Promise<any> {
+  async validateUser(username: string, password: string): Promise<Object> {
     const user = await this.userService.findOne(username);
 
     if (user && (await Criptography.decode(password, user.password))) {
@@ -24,26 +24,23 @@ export class AuthService {
     return null;
   }
 
-
-
-  
-
-    async login(data: any) {
+  async login(data: User) {
     const user = await this.userService.listUserGet(data.username);
     const { id = user._id, username, role } = user;
     const payload = {
-      id, username, role
+      id,
+      username,
+      role,
     };
-    
-    this.socketId.emitUserLogged(user)
-    console.log('cheguei')
+
+    this.socketId.emitUserLogged(user);
+    console.log('cheguei');
 
     return {
-    role,
-    access_token: this.jwtService.sign(payload),
-    username,
-    _id: id,
-  };
+      role,
+      access_token: this.jwtService.sign(payload),
+      username,
+      _id: id,
+    };
   }
-
 }

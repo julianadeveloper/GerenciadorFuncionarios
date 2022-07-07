@@ -28,7 +28,7 @@ export class Userservice {
   async listUserGet(username: string) {
     return await this.userModel.findOne({ username: username }, {});
   }
-  async registerNewUser(user: createUser): Promise<createUser> {
+  async registerUser(user: createUser): Promise<createUser> {
     const userFound = await this.userModel.findOne({ username: user.username });
     if (userFound) {
       throw new BadRequestException('Usuario ja existe.');
@@ -48,6 +48,7 @@ export class Userservice {
     userUpdate: updateUser,
   ): Promise<updateUser> {
     userUpdate.password = await Criptography.encodePwd(userUpdate.password);
+
     const updated = await this.userModel
       .findByIdAndUpdate(id, userUpdate, { new: true })
       .exec();

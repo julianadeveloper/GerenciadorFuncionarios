@@ -1,12 +1,7 @@
-
-import { IsNotEmpty } from "class-validator";
+import { IsNotEmpty } from 'class-validator';
 
 export class getUser {
-    
-    @IsNotEmpty({message: 'username obrigatorio'})
-    username: string;
-    name: string;
-
-    
-
+  @IsNotEmpty({ message: 'username obrigatorio' })
+  username: string;
+  name: string;
 }

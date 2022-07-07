@@ -8,7 +8,6 @@ import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from './constants';
 import { AppGateway } from 'src/socket/socket-test.gateway';
 
-
 @Module({
   imports: [
     UsersModule,
@@ -18,12 +17,7 @@ import { AppGateway } from 'src/socket/socket-test.gateway';
       signOptions: { expiresIn: '1000s' },
     }),
   ],
-  providers: [
-    AppGateway,
-    AuthService,
-    LocalStrategy,
-    JwtStrategy,
-  ],
+  providers: [AppGateway, AuthService, LocalStrategy, JwtStrategy],
   exports: [AuthService],
 })
 export class AuthModule {}

@@ -7,17 +7,18 @@ import { UsersModule } from './users/users.module';
 import { SocketTestModule } from './socket/socket-test.module';
 import { AppGateway } from './socket/socket-test.gateway';
 //mongodb://localhost:27017/desafioback
-//'mongodb+srv://juliana:root@cluster0.1tqbr.mongodb.net/funcionarios?retryWrites=true&w=majority', 
+//'mongodb+srv://juliana:root@cluster0.1tqbr.mongodb.net/funcionarios?retryWrites=true&w=majority',
 //  'mongodb+srv://juliana:root1@cluster0.1tqbr.mongodb.net/funcionarios?retryWrites=true&w=majority',
 @Module({
   imports: [
     AuthModule,
     UsersModule,
-    MongooseModule.forRoot('mongodb+srv://juliana:root1@cluster0.1tqbr.mongodb.net/funcionarios?retryWrites=true&w=majority',
+    MongooseModule.forRoot(
+      'mongodb+srv://juliana:root1@cluster0.1tqbr.mongodb.net/funcionarios?retryWrites=true&w=majority',
     ),
     SocketTestModule,
   ],
-  controllers: [ AppController],
+  controllers: [AppController],
   providers: [AppService, AppGateway],
 })
 export class AppModule {}

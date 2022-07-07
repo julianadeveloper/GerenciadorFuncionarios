@@ -3,7 +3,7 @@ import { Module } from '@nestjs/common';
 import { UserSchema } from './schemas/user.schema';
 import { Userservice } from './shared/user.service';
 import { UsersController } from './users.controller';
-import { RolesGuard } from '../auth/roles/roles.guard'
+import { RolesGuard } from '../auth/roles/roles.guard';
 import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from 'src/auth/constants';
 import { AppGateway } from 'src/socket/socket-test.gateway';
@@ -17,7 +17,7 @@ import { AppGateway } from 'src/socket/socket-test.gateway';
     }),
   ],
   controllers: [UsersController],
-  providers: [ AppGateway, Userservice, RolesGuard],
+  providers: [AppGateway, Userservice, RolesGuard],
   exports: [Userservice, RolesGuard],
 })
 export class UsersModule {}
