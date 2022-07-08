@@ -63,7 +63,6 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
     "express-session": "^1.17.3",
-    "jest": "28.0.3",
     "mongoose": "^6.3.4",
     "prettier": "^2.3.2",
     "source-map-support": "^0.5.20",
