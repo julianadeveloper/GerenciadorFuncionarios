@@ -6,8 +6,8 @@ describe('CatsController', () => {
   let usersService: Userservice;
 
   beforeEach(() => {
-    usersService = new Userservice();
-    usersController = new UsersController(Userservice);
+    usersService = new usersService(usersController);
+    usersController = new UsersController(usersService);
   });
 
   describe('findAll', () => {
