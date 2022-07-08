@@ -25,7 +25,7 @@ export class Userservice {
   async listUserId(id: string): Promise<User> {
     return await this.userModel.findById(id, { password: 0 });
   }
-  async listUserGet(username: string) {
+  async listUserGet(username: string): Promise<User> {
     return await this.userModel.findOne({ username: username }, {});
   }
   async registerUser(user: createUser): Promise<createUser> {
