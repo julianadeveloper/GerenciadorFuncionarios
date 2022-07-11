@@ -25,40 +25,42 @@ import { Userservice } from './shared/user.service';
 export class UsersController {
   constructor(private readonly userService: Userservice) {}
 
+  @ApiBody({ type: UserDto })
   @Get()
   async listUsers(@Query() pageFilter: any): Promise<User[]> {
     return await this.userService.listUsers(pageFilter);
   }
-
+  @ApiBody({ type: UserDto })
   @Get(':id')
   async listUserId(@Param('id') _id: string): Promise<User> {
     return await this.userService.listUserId(_id);
   }
-
+  @ApiBody({ type: UserDto })
   @Get('username')
   async listUserGet(@Param('username') username: string): Promise<getUser> {
     return await this.userService.listUserGet(username);
   }
 
   @Post()
+  // @UseGuards(RolesGuard)
   @ApiBody({ type: UserDto })
   async registerUser(@Body() user: UserDto): Promise<createUser> {
     return await this.userService.registerUser(user);
   }
 
-  @UseInterceptors(ClassSerializerInterceptor)
-  @UseGuards(JwtAuthGuard)
-  @UseGuards(RolesGuard)
+  // @UseInterceptors(ClassSerializerInterceptor)
+  // @UseGuards(JwtAuthGuard)
+  // @UseGuards(RolesGuard)
   @Put(':id')
   async changeUserCredentials(
-    @Param('id') id: string,
+    @Param('id') id: string, 
     @Body() userUpdate: updateUser,
   ) {
     return await this.userService.changeUserCredentials(id, userUpdate);
   }
 
-  @UseGuards(JwtAuthGuard)
-  @UseGuards(RolesGuard)
+  // @UseGuards(JwtAuthGuard)
+  // @UseGuards(RolesGuard)
   @Delete()
   async deleteUser(@Query('ids') ids: string) {
     return await this.userService.deleteUsers(ids.split(','));

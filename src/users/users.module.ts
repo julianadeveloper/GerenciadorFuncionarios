@@ -5,8 +5,8 @@ import { Userservice } from './shared/user.service';
 import { UsersController } from './users.controller';
 import { RolesGuard } from '../auth/roles/roles.guard';
 import { JwtModule } from '@nestjs/jwt';
-import { jwtConstants } from 'src/auth/constants';
-import { AppGateway } from 'src/socket/socket-test.gateway';
+import { jwtConstants } from '../auth/constants';
+import { AppGateway } from '../socket/socket-test.gateway';
 
 @Module({
   imports: [

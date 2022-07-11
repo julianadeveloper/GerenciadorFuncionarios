@@ -1,9 +1,9 @@
 import { Userservice } from '../users/shared/user.service';
 import { JwtService } from '@nestjs/jwt';
 import { Injectable } from '@nestjs/common';
-import { Criptography } from 'src/users/shared/utils/bcrypt';
-import { AppGateway } from 'src/socket/socket-test.gateway';
-import { User } from 'src/users/shared/user';
+import { Criptography } from '../users/shared/utils/bcrypt';
+import { AppGateway } from '../socket/socket-test.gateway';
+import { User } from '../users/shared/user';
 
 @Injectable()
 export class AuthService {
@@ -34,7 +34,7 @@ export class AuthService {
     };
 
     this.socketId.emitUserLogged(user);
-    console.log('cheguei');
+    console.log('LOGUEI');
 
     return {
       role,

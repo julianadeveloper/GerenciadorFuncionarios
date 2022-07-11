@@ -1,9 +1,5 @@
 version: '3.7'
 
-networks:
-  api-mongo:
-    driver: bridge
-
 services:
   app:
     build: .
@@ -14,9 +10,23 @@ services:
       - 3001:3001
     restart: always
     tty: true
-    # networks:
-    #   - api-mongo
-    #   # - front
+    networks:
+      - api-mongo
     volumes:
       - ./:/home/app
-    
+  db:
+    container_name: database
+    image: mongo
+    ports:
+      - 30000:30000
+    restart: always
+    tty: true
+    environment:
+      MONGO_USER: juliana
+      MONGO_PASSWORD: root1
+    networks:
+      - api-mongo
+      
+networks:
+  api-mongo:
+    driver: bridge

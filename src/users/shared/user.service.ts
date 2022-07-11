@@ -6,7 +6,7 @@ import { updateUser } from '../shared/dto/update-user.dto';
 import { User } from '../shared/user';
 import { UserDocument } from '../schemas/user.schema';
 import { Criptography } from '.././shared/utils/bcrypt';
-import { AppGateway } from 'src/socket/socket-test.gateway';
+import { AppGateway } from '../../socket/socket-test.gateway';
 
 @Injectable()
 export class Userservice {
