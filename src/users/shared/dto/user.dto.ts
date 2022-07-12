@@ -1,9 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
 
 export class UserDto {
-  static username: string;
-  static password: string;
-  static role: string;
+  // static username: string;
+  // static password: string;
+  // static role: string;
 
   // constructor(users?: Partial<UserDto>) {
   //   this.name = UserDto?.name;
@@ -11,6 +11,7 @@ export class UserDto {
   //   this.password = UserDto?.password,
   //   this.role = UserDto?.role
   // }
+
 
   @ApiProperty()
   username: string;
@@ -22,4 +23,6 @@ export class UserDto {
   password: string;
 
   role: string;
+
+
 }

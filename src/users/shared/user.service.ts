@@ -7,6 +7,7 @@ import { User } from '../shared/user';
 import { UserDocument } from '../schemas/user.schema';
 import { Criptography } from '.././shared/utils/bcrypt';
 import { AppGateway } from '../../socket/socket-test.gateway';
+import { getModelToken } from '@nestjs/mongoose';
 
 @Injectable()
 export class Userservice {

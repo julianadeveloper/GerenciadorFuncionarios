@@ -7,26 +7,38 @@ import { UsersModule } from '../users.module';
 import { Userservice } from './user.service';
 
 describe('userservice', () => {
-  let provider: Userservice;
+  let userService: Userservice;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [UsersModule, AppModule, MongooseModule.forFeature([{ name: 'User', schema: UserSchema}])],
-      providers: [Userservice, AppGateway],
-    
+      imports: [
+        UsersModule,
+        AppModule,
+         MongooseModule.forFeature([{ name: 'User', schema: UserSchema }]),
+
+      ],
+      providers: [Userservice, AppGateway]
+
     }).compile();
 
-    provider = module.get<Userservice>(Userservice);
-  })
-
-  it('should be defined', () => {
-    expect(provider).toBeDefined();
+    userService = module.get<Userservice>(Userservice);
   });
+  // service foi definido
+  test('should be defined', () => {
+    expect(userService).toBeDefined();
+  });
+  // ListUser é uma função
+  describe('Users', () => {
+    test('UserList retorna uma função', async () => {
+      expect(userService.listUsers).toBe(userService.listUsers);
+    });
 
-
+    it('Retorne um item do array', async () => {
+      const result = await await userService.listUserId
+      expect(result).toEqual('');
+    });
+  });
 });
-
-
 // describe('UserController', () => {
 //   let usersController: UsersController;
 //   let usersService: Userservice;
