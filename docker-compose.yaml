@@ -15,7 +15,7 @@ services:
     volumes:
       - ./:/home/app
   db:
-    container_name: database
+    container_name: api-mongo
     image: mongo
     ports:
       - 30000:30000

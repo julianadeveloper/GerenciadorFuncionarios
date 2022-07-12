@@ -7,8 +7,8 @@ const CONFIG_DYNAMIC_MODULE = ConfigModule.forRoot({
 });
 
 const MONGOOSE_DYNAMIC_MODULE = MongooseModule.forRoot(
-  // "mongodb://juliana:root1@db:30000/funcionarios?authSource=admin",
-  'mongodb+srv://juliana:root1@cluster0.1tqbr.mongodb.net/funcionarios?retryWrites=true&w=majority',
+    //  "mongodb://juliana:root1@db:30000/api-mongo/funcionarios?authSource=admin",
+ 'mongodb+srv://juliana:root1@cluster0.1tqbr.mongodb.net/funcionarios?retryWrites=true&w=majority',
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
