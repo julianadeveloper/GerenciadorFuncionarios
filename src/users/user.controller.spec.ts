@@ -14,8 +14,7 @@ describe('UserController', () => {
   describe('findAll', () => {
     it('should return an array of cats', async () => {
       const result = [{username:'teste'}];
-      jest.spyOn(usersService, 'listUsers').mockImplementation(() => result['teste']);
-      expect(await usersController.listUsers(UsersController)).toBe(result);
+      expect(await usersController.listUsers).toBe(result);
     });
   });
 });
