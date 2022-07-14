@@ -1,4 +1,9 @@
-import { BadRequestException, Injectable, Post } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+  Post,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { createUser } from '../shared/dto/create-user.dto';
@@ -19,16 +24,25 @@ export class Userservice {
     const query = {};
     if (pageFilter.search)
       query['username'] = { $regex: pageFilter.search, $options: 'i' };
-    return await this.userModel.find(query, { password: 0 }) /*.exec()*/
+    return await this.userModel.find(query, { password: 0 })
   }
 
   async listUserId(id: string): Promise<User> {
-    return await this.userModel.findById(id, { password: 0 });
+    try {
+      return await this.userModel.findById(id, { password: 0 });
+    } catch (error) {
+      throw new NotFoundException(error.message);
+    }
   }
   async listUserGet(username: string): Promise<User> {
-    return await this.userModel.findOne({ username: username }, {});
+    try {
+      return await this.userModel.findOne({ username: username }, {});
+    } catch (error) {
+      throw new NotFoundException(error.message);
+    }
   }
   async registerUser(user: createUser): Promise<createUser> {
+    
     const userFound = await this.userModel.findOne({ username: user.username });
     if (userFound) {
       throw new BadRequestException('Usuario ja existe.');
@@ -36,11 +50,11 @@ export class Userservice {
 
     user.password = await Criptography.encodePwd(user.password);
 
-    const userCreate = new this.userModel(user);
+    const userCreate = await this.userModel.create(user);
 
     this.socketGateway.emitnewUser(userCreate);
 
-    return await userCreate.save();
+    return  userCreate;
   }
 
   async changeUserCredentials(
