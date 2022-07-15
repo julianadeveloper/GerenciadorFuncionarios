@@ -53,7 +53,7 @@ export class Userservice {
     const userCreate = await this.userModel.create(user);
 
     this.socketGateway.emitnewUser(userCreate);
-
+    
     return  userCreate;
   }
 
