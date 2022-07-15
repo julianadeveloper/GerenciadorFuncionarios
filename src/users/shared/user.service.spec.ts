@@ -42,7 +42,7 @@ describe('userservice', () => {
     const userMockRepository = {
       find: jest.fn().mockResolvedValue(userEntityList),
       findById: jest.fn().mockReturnValue(userEntityList[0]),
-      findOne: jest.fn(),
+      findOne: jest.fn().mockReturnValue(userEntityList[0]),
       encodePwd: jest.fn(),
       create: jest.fn().mockReturnValue(userEntityList[0]),
       save: jest.fn().mockResolvedValue(userEntityList[0]),
@@ -96,7 +96,7 @@ describe('userservice', () => {
       expect(userRepository.find).rejects.toThrowError('NotFoundExceptions');
     });
   });
-  describe('List user by id sucessfully', () => {
+  describe('findById', () => {
     it('Return user by id', async () => {
       const result = await userRepository.findById(userEntityList[0]._id);
       expect(result).toEqual(userEntityList[0]);
@@ -197,6 +197,21 @@ describe('userservice', () => {
       expect(userRepository.findOneAndDelete(data)).rejects.toThrowError(
         'NotFoundException',
       );
+    });
+  });
+  describe('findOne', () => {
+    it('findOne', async () => {
+      const result = await userRepository.findOne(userEntityList[0]);
+      expect(result).toEqual(userEntityList[0]);
+      console.log(result)
+      expect(userRepository.findOne).toHaveBeenCalledTimes(1);
+    });
+
+    it('Erro de exceção - NotFoundExceptions', () => {
+      jest
+        .spyOn(userRepository, 'findOne')
+        .mockRejectedValueOnce(new Error('NotFoundExceptions'));
+      expect(userRepository.findOne).rejects.toThrowError('NotFoundExceptions');
     });
   });
 });
