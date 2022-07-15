@@ -1,17 +1,16 @@
 import {
   BadRequestException,
   Injectable,
-  NotFoundException,
-  Post,
+  NotFoundException
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { AppGateway } from '../../socket/socket-test.gateway';
+import { Criptography } from '.././shared/utils/bcrypt';
+import { UserDocument } from '../schemas/user.schema';
 import { createUser } from '../shared/dto/create-user.dto';
 import { updateUser } from '../shared/dto/update-user.dto';
 import { User } from '../shared/user';
-import { UserDocument } from '../schemas/user.schema';
-import { Criptography } from '.././shared/utils/bcrypt';
-import { AppGateway } from '../../socket/socket-test.gateway';
 
 @Injectable()
 export class Userservice {
@@ -84,7 +83,12 @@ export class Userservice {
   async deleteUsers(ids: string[]) {
     Promise.all(
       ids.map(async (id) => {
-        await this.userModel.findOneAndDelete({ _id: id }).exec();
+        try {
+          await this.userModel.findOneAndDelete({ _id: id }).exec();
+          
+        } catch (error) {
+          throw new NotFoundException(error)
+        }
         this.socketGateway.emitRemoveUser(id);
       }),
     );

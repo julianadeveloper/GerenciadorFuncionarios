@@ -1,9 +1,8 @@
-import { BadRequestException, NotFoundException } from '@nestjs/common';
+import { NotFoundException } from '@nestjs/common';
 import { getModelToken } from '@nestjs/mongoose';
 import { Test, TestingModule } from '@nestjs/testing';
 import { Model } from 'mongoose';
 import { AppGateway } from '../../socket/socket-test.gateway';
-import { createUser } from './dto/create-user.dto';
 import { User } from './user';
 import { Userservice } from './user.service';
 
@@ -48,7 +47,7 @@ describe('userservice', () => {
       create: jest.fn().mockReturnValue(userEntityList[0]),
       save: jest.fn().mockResolvedValue(userEntityList[0]),
       findByIdAndUpdate: jest.fn().mockReturnValue(updateUserEntity),
-      findOneAndDelete: jest.fn().mockResolvedValue(userEntityList[1]),
+      findOneAndDelete: jest.fn().mockReturnValue(undefined),
       exec: jest.fn().mockResolvedValue(userEntityList[1]),
       // emitnewUser: jest.fn().mockImplementation(userCreateTest),
       // emitupdateUser: jest.fn(),
@@ -165,7 +164,39 @@ describe('userservice', () => {
       expect(
         userRepository.findByIdAndUpdate('userUpdate', data),
       ).rejects.toThrowError('NotFoundException');
- 
+    });
+  });
+
+  describe('Delet User', () => {
+    it('Delet Sucessfully', () => {
+      const data = {
+        _id: 'userUpdate',
+        username: 'userUpdate',
+        password: '123456',
+        name: 'update',
+        role: 'operador',
+        WebSocket: 'mywebsocket3',
+      };
+      const result = userRepository.findOneAndDelete(data);
+      expect(result).toBeUndefined();
+    });
+
+    const data = {
+      _id: 'userUpdate',
+      username: 'userUpdate',
+      password: '123456',
+      name: 'update',
+      role: 'operador',
+      WebSocket: 'mywebsocket3',
+    };
+    it('Shloud throw a not found exception', () => {
+      jest
+        .spyOn(userRepository, 'findOneAndDelete')
+        .mockRejectedValueOnce(new Error('NotFoundException'));
+
+      expect(userRepository.findOneAndDelete(data)).rejects.toThrowError(
+        'NotFoundException',
+      );
     });
   });
 });
