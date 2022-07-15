@@ -24,7 +24,11 @@ export class Userservice {
     const query = {};
     if (pageFilter.search)
       query['username'] = { $regex: pageFilter.search, $options: 'i' };
-    return await this.userModel.find(query, { password: 0 })
+    try {
+      return await this.userModel.find(query, { password: 0 });
+    } catch (error) {
+      throw new NotFoundException(error.message);
+    }
   }
 
   async listUserId(id: string): Promise<User> {
@@ -34,6 +38,7 @@ export class Userservice {
       throw new NotFoundException(error.message);
     }
   }
+
   async listUserGet(username: string): Promise<User> {
     try {
       return await this.userModel.findOne({ username: username }, {});
@@ -42,7 +47,6 @@ export class Userservice {
     }
   }
   async registerUser(user: createUser): Promise<createUser> {
-    
     const userFound = await this.userModel.findOne({ username: user.username });
     if (userFound) {
       throw new BadRequestException('Usuario ja existe.');
@@ -50,11 +54,11 @@ export class Userservice {
 
     user.password = await Criptography.encodePwd(user.password);
 
-    const userCreate = await this.userModel.create(user);
+    const userCreate = await (await this.userModel.create(user)).save();
 
     this.socketGateway.emitnewUser(userCreate);
-    
-    return  userCreate;
+
+    return userCreate;
   }
 
   async changeUserCredentials(
@@ -63,12 +67,18 @@ export class Userservice {
   ): Promise<updateUser> {
     userUpdate.password = await Criptography.encodePwd(userUpdate.password);
 
-    const updated = await this.userModel
+    try {
+      const updated = await this.userModel
       .findByIdAndUpdate(id, userUpdate, { new: true })
       .exec();
 
     this.socketGateway.emitupdateUser('id');
+    
     return updated;
+    } 
+    catch (error) { 
+    throw  new NotFoundException()
+    }
   }
 
   async deleteUsers(ids: string[]) {

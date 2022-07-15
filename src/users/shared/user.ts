@@ -11,6 +11,7 @@ export class User {
 
 
   constructor(User?: Partial<User>) {
+    this._id = User?._id;
     this.name = User?.name;
     this.username = User?.username,
     this.password = User?.password,
