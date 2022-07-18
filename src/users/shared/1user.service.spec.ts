@@ -1,10 +1,11 @@
-import { NotFoundException } from '@nestjs/common';
 import { getModelToken } from '@nestjs/mongoose';
 import { Test, TestingModule } from '@nestjs/testing';
 import { Model } from 'mongoose';
+import { Server, Socket } from 'socket.io';
 import { AppGateway } from '../../socket/socket-test.gateway';
 import { User } from './user';
 import { Userservice } from './user.service';
+import { Criptography } from './utils/bcrypt';
 
 const userEntityList: User[] = [
   new User({
@@ -28,6 +29,8 @@ const userEntityList: User[] = [
 describe('userservice', () => {
   let userService: Userservice;
   let userRepository: Model<User>;
+  let appGateway: AppGateway;
+  let Criptography: Criptography;
 
   const updateUserEntity = new User({
     _id: 'userUpdate',
@@ -43,14 +46,16 @@ describe('userservice', () => {
       find: jest.fn().mockResolvedValue(userEntityList),
       findById: jest.fn().mockReturnValue(userEntityList[0]),
       findOne: jest.fn().mockReturnValue(userEntityList[0]),
-      encodePwd: jest.fn(),
       create: jest.fn().mockReturnValue(userEntityList[0]),
       save: jest.fn().mockResolvedValue(userEntityList[0]),
       findByIdAndUpdate: jest.fn().mockReturnValue(updateUserEntity),
       findOneAndDelete: jest.fn().mockReturnValue(undefined),
       exec: jest.fn().mockResolvedValue(userEntityList[1]),
-      // emitupdateUser: jest.fn(), 
-      // emitRemoveUser: jest.fn(),
+      afterInit: jest.fn().mockImplementation(),
+      emitRemoveUser: jest.fn().mockImplementation(),
+      emitupdateUser: jest.fn().mockImplementation(),
+      encodePwd: jest.fn().mockImplementation(),
+      on: jest.fn().mockImplementation(),
     };
     const module: TestingModule = await Test.createTestingModule({
       providers: [
@@ -65,6 +70,9 @@ describe('userservice', () => {
 
     userService = module.get<Userservice>(Userservice);
     userRepository = module.get<Model<User>>(getModelToken('User'));
+    appGateway = module.get<AppGateway>(AppGateway);
+    Criptography = module.get<Criptography>(Userservice);
+
   });
 
   // service foi definido
@@ -118,7 +126,7 @@ describe('userservice', () => {
         role: 'operador',
         WebSocket: 'mywebsocket1',
       };
-      
+
       const result = await userRepository.create(data);
       //utilizando variavel deu erro no hash da senha
       expect(result).toEqual(userEntityList[0]);
@@ -147,7 +155,7 @@ describe('userservice', () => {
 
       const result = await userRepository.findByIdAndUpdate('userUpdate', data);
       expect(result).toEqual(updateUserEntity);
-      console.log(result)
+      console.log(result);
     });
 
     it('Erro de exceção - NotFoundExceptions', () => {
