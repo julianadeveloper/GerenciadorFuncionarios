@@ -7,14 +7,13 @@ describe('UserController', () => {
   let usersService: Userservice;
 
   beforeEach(() => {
-    // usersService = new usersService(usersController);
     usersController = new UsersController(usersService);
   });
 
   describe('findAll', () => {
     it('should return an array of cats', async () => {
       const result = [{username:'teste'}];
-      expect(await usersController.listUsers).toBe(result);
+      expect(await usersController.listUsers({username: 'teste'})).toBe(result);
     });
   });
 });
