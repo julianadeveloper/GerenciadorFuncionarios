@@ -49,8 +49,7 @@ describe('userservice', () => {
       findByIdAndUpdate: jest.fn().mockReturnValue(updateUserEntity),
       findOneAndDelete: jest.fn().mockReturnValue(undefined),
       exec: jest.fn().mockResolvedValue(userEntityList[1]),
-      // emitnewUser: jest.fn().mockImplementation(userCreateTest),
-      // emitupdateUser: jest.fn(),
+      // emitupdateUser: jest.fn(), 
       // emitRemoveUser: jest.fn(),
     };
     const module: TestingModule = await Test.createTestingModule({
@@ -112,12 +111,14 @@ describe('userservice', () => {
   describe('Create', () => {
     it('Create New User', async () => {
       const data = {
-        _id: 'myId',
-        username: 'testUser1',
+        _id: '89d58w5',
+        username: 'testUser',
         password: '123456',
         name: 'teste1',
         role: 'operador',
+        WebSocket: 'mywebsocket1',
       };
+      
       const result = await userRepository.create(data);
       //utilizando variavel deu erro no hash da senha
       expect(result).toEqual(userEntityList[0]);
@@ -146,6 +147,7 @@ describe('userservice', () => {
 
       const result = await userRepository.findByIdAndUpdate('userUpdate', data);
       expect(result).toEqual(updateUserEntity);
+      console.log(result)
     });
 
     it('Erro de exceção - NotFoundExceptions', () => {

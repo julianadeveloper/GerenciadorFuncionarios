@@ -1,4 +1,3 @@
-import { NotFoundException } from '@nestjs/common';
 import { getModelToken } from '@nestjs/mongoose';
 import { Test, TestingModule } from '@nestjs/testing';
 import { Model } from 'mongoose';
@@ -49,7 +48,7 @@ describe('userservice', () => {
       findByIdAndUpdate: jest.fn().mockReturnValue(updateUserEntity),
       findOneAndDelete: jest.fn().mockReturnValue(undefined),
       exec: jest.fn().mockResolvedValue(userEntityList[1]),
-      // emitnewUser: jest.fn().mockImplementation(userCreateTest),
+      emitnewUser: jest.fn().mockImplementation(),
       // emitupdateUser: jest.fn(),
       // emitRemoveUser: jest.fn(),
     };
