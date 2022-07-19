@@ -1,34 +1,37 @@
-version: '3.7'
+version: '3.6'
 
 services:
   app:
     build: .
     entrypoint: sh ./.docker/entrypoint.sh
-    container_name: app-teste
+    container_name: app-backend
     ports:
       - 3000:3000
       - 3001:3001
     restart: always
-    tty: true
-    networks:
-      - api-teste
     volumes:
       - ./:/home/app
-  db:
-    container_name: api-mongo
-    image: mongo
-    ports:
-      - 30000:30000
-    restart: always
     tty: true
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: juliana
-      MONGO_INITDB_ROOT_PASSWORD: root1
-      # MONGO_INITDB_DATABASE: admin
-
     networks:
       - api-teste
-      
+  db:
+    image: mongo:4.4
+    #command: mongod --serviceExecutor adaptive
+    ports:
+      - 27017:27017
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=juliana
+      - MONGO_INITDB_ROOT_PASSWORD=root1
+      - MONGO_INITDB_DATABASE=funcionarios
+    volumes:
+      - mongodb_server_data:/data/db
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
+    networks:
+      - api-teste
+volumes:
+  mongodb_server_data:
+
+
 networks:
   api-teste:
     driver: bridge

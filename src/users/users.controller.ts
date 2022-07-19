@@ -22,7 +22,7 @@ import { getUser } from './shared/dto/get-user.dto';
 import { updateUser } from './shared/dto/update-user.dto';
 import { UserDto } from './shared/dto/user.dto';
 import { User } from './shared/enitity/user';
-import { Userservice } from './shared/services/user.service';
+import { Userservice } from '../services/user.service';
 
 @Controller('users')
 export class UsersController {

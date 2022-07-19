@@ -6,12 +6,12 @@ import {
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { throwError } from 'rxjs';
-import { AppGateway } from '../../../socket/socket-test.gateway';
-import { Criptography } from '../.././shared/utils/bcrypt';
-import { UserDocument } from '../../schemas/user.schema';
-import { createUser } from '../../shared/dto/create-user.dto';
-import { updateUser } from '../../shared/dto/update-user.dto';
-import { User } from '.././enitity/user';
+import { AppGateway } from '../socket/socket-test.gateway';
+import { Criptography } from '../users/shared/utils/bcrypt';
+import { UserDocument } from '../users/schemas/user.schema';
+import { createUser } from '../users/shared/dto/create-user.dto';
+import { updateUser } from '../users/shared/dto/update-user.dto';
+import { User } from '../users/shared/enitity/user';
 
 @Injectable()
 export class Userservice {

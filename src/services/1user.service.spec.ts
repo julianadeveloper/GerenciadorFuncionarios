@@ -1,10 +1,12 @@
+import { NotFoundException } from '@nestjs/common';
 import { getModelToken } from '@nestjs/mongoose';
 import { Test, TestingModule } from '@nestjs/testing';
 import { Model } from 'mongoose';
-import { AppGateway } from '../../../socket/socket-test.gateway';
-import { User } from '../enitity/user';
-import { Criptography } from '../utils/bcrypt';
+import { Server, ServerOptions, Socket } from 'socket.io';
+import { AppGateway } from '../socket/socket-test.gateway';
+import { User } from '../users/shared/enitity/user';
 import { Userservice } from './user.service';
+import { Criptography } from '../users/shared/utils/bcrypt';
 
 const userEntityList: User[] = [
   new User({
@@ -28,6 +30,9 @@ const userEntityList: User[] = [
 describe('userservice', () => {
   let userService: Userservice;
   let userRepository: Model<User>;
+  let appGateway: AppGateway;
+  let Criptography: Criptography;
+  let serverSocket  : Server<ServerOptions>
 
   const updateUserEntity = new User({
     _id: 'userUpdate',
@@ -37,26 +42,22 @@ describe('userservice', () => {
     role: 'operador',
     WebSocket: 'mywebsocket3',
   });
-  const userCreateTest = {
-    username: 'testUser1',
-    password: '123456',
-    name: 'teste1',
-    role: 'operador',
-  };
+
   beforeEach(async () => {
     const userMockRepository = {
       find: jest.fn().mockResolvedValue(userEntityList),
       findById: jest.fn().mockReturnValue(userEntityList[0]),
       findOne: jest.fn().mockReturnValue(userEntityList[0]),
-      encodePwd: jest.fn(),
-      create: jest.fn().mockReturnValue(userCreateTest),
+      create: jest.fn().mockReturnValue(userEntityList[0]),
       save: jest.fn().mockResolvedValue(userEntityList[0]),
       findByIdAndUpdate: jest.fn().mockReturnValue(updateUserEntity),
       findOneAndDelete: jest.fn().mockReturnValue(undefined),
       exec: jest.fn().mockResolvedValue(userEntityList[1]),
-      emitnewUser: jest.fn().mockImplementation(),
-      // emitupdateUser: jest.fn(),
-      // emitRemoveUser: jest.fn(),
+      afterInit: jest.fn().mockImplementation(),
+      emitRemoveUser: jest.fn().mockImplementation(),
+      emitupdateUser: jest.fn().mockImplementation(),
+      encodePwd: jest.fn().mockImplementation(),
+      on: jest.fn().mockImplementation(),
     };
     const module: TestingModule = await Test.createTestingModule({
       providers: [
@@ -71,6 +72,9 @@ describe('userservice', () => {
 
     userService = module.get<Userservice>(Userservice);
     userRepository = module.get<Model<User>>(getModelToken('User'));
+    appGateway = module.get<AppGateway>(AppGateway);
+    Criptography = module.get<Criptography>(Userservice);
+
   });
 
   // service foi definido
@@ -101,7 +105,7 @@ describe('userservice', () => {
       expect(userRepository.find).rejects.toThrowError('NotFoundExceptions');
     });
   });
-  describe('findById', () => {
+  describe('List user by id sucessfully', () => {
     it('Return user by id', async () => {
       const result = await userRepository.findById(userEntityList[0]._id);
       expect(result).toEqual(userEntityList[0]);
@@ -116,12 +120,18 @@ describe('userservice', () => {
 
   describe('Create', () => {
     it('Create New User', async () => {
-    
-      const result = await userRepository.create(userCreateTest);
+      const data = {
+        _id: '89d58w5',
+        username: 'testUser',
+        password: '123456',
+        name: 'teste1',
+        role: 'operador',
+        WebSocket: 'mywebsocket1',
+      };
+
+      const result = await userRepository.create(data);
       //utilizando variavel deu erro no hash da senha
-      // expect(Criptography.encodePwd(userCreateTest.password)).toBe(!userCreateTest.password);
-      expect(result).toEqual(userCreateTest);
-      console.log('create', result)
+      expect(result).toEqual(userEntityList[0]);
       expect(userRepository.create).toHaveBeenCalledTimes(1);
     });
     it('Erro de exceção - BadRequestException', () => {
@@ -147,6 +157,7 @@ describe('userservice', () => {
 
       const result = await userRepository.findByIdAndUpdate('userUpdate', data);
       expect(result).toEqual(updateUserEntity);
+      console.log(result);
     });
 
     it('Erro de exceção - NotFoundExceptions', () => {
@@ -204,15 +215,16 @@ describe('userservice', () => {
     it('findOne', async () => {
       const result = await userRepository.findOne(userEntityList[0]);
       expect(result).toEqual(userEntityList[0]);
-      console.log(result)
+      // console.log(result)
+      //testando se meu user está sendo chamado pelo menos 1 vez.
       expect(userRepository.findOne).toHaveBeenCalledTimes(1);
     });
 
     it('Erro de exceção - NotFoundExceptions', () => {
       jest
         .spyOn(userRepository, 'findOne')
-        .mockRejectedValueOnce(new Error('NotFoundExceptions'));
-      expect(userRepository.findOne).rejects.toThrowError('NotFoundExceptions');
+        .mockRejectedValueOnce(new Error('NotFoundException'))
+      expect(userRepository.findOne).rejects.toThrowError('NotFoundException');
     });
   });
 });

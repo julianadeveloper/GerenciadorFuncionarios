@@ -1,39 +1,49 @@
-import { UsersController } from './users.controller';
-import { Userservice } from '../users/shared/services/user.service';
+import { Test, TestingModule } from '@nestjs/testing';
+import { INestApplication } from '@nestjs/common';
+import * as request from 'supertest';
+import { UsersModule } from './users.module';
 import { AppGateway } from 'src/socket/socket-test.gateway';
-import { Model } from 'mongoose';
-import { User } from './shared/enitity/user';
-import { Test, TestingModule, } from '@nestjs/testing';
-import { getModelToken } from '@nestjs/mongoose';
+import { Userservice } from 'src/services/user.service';
+import { RolesGuard } from 'src/auth/roles/roles.guard';
+import { MongooseModule } from '@nestjs/mongoose';
+import { UserSchema } from './schemas/user.schema';
+import { JwtModule } from '@nestjs/jwt';
+import { jwtConstants } from 'src/auth/constants';
 
-describe('UserController', () => {
-  let usersController: UsersController;
-  let usersService: Userservice;
-  let userRepository: Model<User>;
-  let socketGatway : AppGateway;
+describe('User Controller (e2e)', () => {
+  let app: INestApplication;
 
   beforeEach(async () => {
-    // usersService = new Userservice(userRepository, socketGatway);
-    // usersController = new UsersController(usersService)
-
-
-    const moduleRef = await Test.createTestingModule({
-      controllers: [UsersController],
-      providers: [
-        Userservice,
-        AppGateway,
-      //   {
-      //   provide: getModelToken('User'),
-      // }
+    const moduleFixture: TestingModule = await Test.createTestingModule({
+      imports: [UsersModule,
+        MongooseModule.forFeature([{ name: 'User', schema: UserSchema }])
       ],
-      
-      })
+      providers: [Userservice]
     }).compile();
-    // usersController = await ModuleRef.resolve(usersController);
+
+    app = moduleFixture.createNestApplication();
+    await app.init();
   });
 
-  describe('findAll', () => {
-    it('should return an array of cats', async () => {
-        console.log('lalala')
-    });
+  it('/ (GET)', () => {
+    return request(app.getHttpServer())
+      .get('/')
+      .expect(200)
+  
   });
+});
+// import {UsersController } from './users.controller';
+// import { User } from './shared/enitity/user';
+// import { Model } from 'mongoose';
+// import { Userservice } from 'src/services/user.service';
+
+// describe('CatsController', () => {
+//   let usersController: UsersController;
+//   let usersService: Userservice;
+//   let userRepository: Model<User>;
+
+//   beforeEach(() => {
+//     usersController = new UsersController(usersService);
+//   });
+
+// });
