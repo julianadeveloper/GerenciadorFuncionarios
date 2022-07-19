@@ -1,7 +1,7 @@
 import { MongooseModule } from '@nestjs/mongoose';
 import { Module } from '@nestjs/common';
 import { UserSchema } from './schemas/user.schema';
-import { Userservice } from './shared/user.service';
+import { Userservice } from './shared/services/user.service';
 import { UsersController } from './users.controller';
 import { RolesGuard } from '../auth/roles/roles.guard';
 import { JwtModule } from '@nestjs/jwt';

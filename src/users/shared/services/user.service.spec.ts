@@ -3,6 +3,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { Model } from 'mongoose';
 import { AppGateway } from '../../../socket/socket-test.gateway';
 import { User } from '../enitity/user';
+import { Criptography } from '../utils/bcrypt';
 import { Userservice } from './user.service';
 
 const userEntityList: User[] = [
@@ -36,14 +37,19 @@ describe('userservice', () => {
     role: 'operador',
     WebSocket: 'mywebsocket3',
   });
-
+  const userCreateTest = {
+    username: 'testUser1',
+    password: '123456',
+    name: 'teste1',
+    role: 'operador',
+  };
   beforeEach(async () => {
     const userMockRepository = {
       find: jest.fn().mockResolvedValue(userEntityList),
       findById: jest.fn().mockReturnValue(userEntityList[0]),
       findOne: jest.fn().mockReturnValue(userEntityList[0]),
       encodePwd: jest.fn(),
-      create: jest.fn().mockReturnValue(userEntityList[0]),
+      create: jest.fn().mockReturnValue(userCreateTest),
       save: jest.fn().mockResolvedValue(userEntityList[0]),
       findByIdAndUpdate: jest.fn().mockReturnValue(updateUserEntity),
       findOneAndDelete: jest.fn().mockReturnValue(undefined),
@@ -110,16 +116,12 @@ describe('userservice', () => {
 
   describe('Create', () => {
     it('Create New User', async () => {
-      const data = {
-        _id: 'myId',
-        username: 'testUser1',
-        password: '123456',
-        name: 'teste1',
-        role: 'operador',
-      };
-      const result = await userRepository.create(data);
+    
+      const result = await userRepository.create(userCreateTest);
       //utilizando variavel deu erro no hash da senha
-      expect(result).toEqual(userEntityList[0]);
+      // expect(Criptography.encodePwd(userCreateTest.password)).toBe(!userCreateTest.password);
+      expect(result).toEqual(userCreateTest);
+      console.log('create', result)
       expect(userRepository.create).toHaveBeenCalledTimes(1);
     });
     it('Erro de exceção - BadRequestException', () => {

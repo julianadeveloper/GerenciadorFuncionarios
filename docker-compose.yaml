@@ -11,7 +11,7 @@ services:
     restart: always
     tty: true
     networks:
-      - api-mongo
+      - api-teste
     volumes:
       - ./:/home/app
   db:
@@ -22,11 +22,13 @@ services:
     restart: always
     tty: true
     environment:
-      MONGO_USER: juliana
-      MONGO_PASSWORD: root1
+      MONGO_INITDB_ROOT_USERNAME: juliana
+      MONGO_INITDB_ROOT_PASSWORD: root1
+      # MONGO_INITDB_DATABASE: admin
+
     networks:
-      - api-mongo
+      - api-teste
       
 networks:
-  api-mongo:
+  api-teste:
     driver: bridge
