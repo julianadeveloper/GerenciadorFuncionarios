@@ -1,7 +1,8 @@
+import { NotFoundException } from '@nestjs/common';
 import { getModelToken } from '@nestjs/mongoose';
 import { Test, TestingModule } from '@nestjs/testing';
 import { Model } from 'mongoose';
-import { Server, Socket } from 'socket.io';
+import { Server, ServerOptions, Socket } from 'socket.io';
 import { AppGateway } from '../../socket/socket-test.gateway';
 import { User } from './user';
 import { Userservice } from './user.service';
@@ -31,6 +32,7 @@ describe('userservice', () => {
   let userRepository: Model<User>;
   let appGateway: AppGateway;
   let Criptography: Criptography;
+  let serverSocket  : Server<ServerOptions>
 
   const updateUserEntity = new User({
     _id: 'userUpdate',
@@ -221,8 +223,8 @@ describe('userservice', () => {
     it('Erro de exceção - NotFoundExceptions', () => {
       jest
         .spyOn(userRepository, 'findOne')
-        .mockRejectedValueOnce(new Error('NotFoundExceptions'));
-      expect(userRepository.findOne).rejects.toThrowError('NotFoundExceptions');
+        .mockRejectedValueOnce(new Error('NotFoundException'))
+      expect(userRepository.findOne).rejects.toThrowError('NotFoundException');
     });
   });
 });
