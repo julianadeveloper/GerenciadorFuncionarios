@@ -1,8 +1,8 @@
 import { UsersController } from './users.controller';
-import { Userservice } from '../users/shared/user.service';
+import { Userservice } from '../users/shared/services/user.service';
 import { AppGateway } from 'src/socket/socket-test.gateway';
 import { Model } from 'mongoose';
-import { User } from './shared/user';
+import { User } from './shared/enitity/user';
 import { Test, TestingModule, } from '@nestjs/testing';
 import { getModelToken } from '@nestjs/mongoose';
 

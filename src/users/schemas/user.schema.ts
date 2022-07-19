@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, * as moongose from 'mongoose';
-import { User } from '../shared/user';
+import { User } from '../shared/enitity/user';
 
 export const UserSchema = new moongose.Schema({
   username: String,

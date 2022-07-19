@@ -10,4 +10,5 @@ import { Server } from 'http';
 export class SocketService {
   @WebSocketServer()
   server: Server;
+
 }

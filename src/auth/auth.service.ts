@@ -1,9 +1,9 @@
-import { Userservice } from '../users/shared/user.service';
+import { Userservice } from '../users/shared/services/user.service';
 import { JwtService } from '@nestjs/jwt';
 import { Injectable } from '@nestjs/common';
 import { Criptography } from '../users/shared/utils/bcrypt';
 import { AppGateway } from '../socket/socket-test.gateway';
-import { User } from '../users/shared/user';
+import { User } from '../users/shared/enitity/user';
 
 @Injectable()
 export class AuthService {
@@ -27,6 +27,7 @@ export class AuthService {
   async login(data: User) {
     const user = await this.userService.listUserGet(data.username);
     const { _id = user._id, username, role } = user;
+
     const payload = {
       _id,
       username,
