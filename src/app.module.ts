@@ -1,8 +1,10 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { ConfigurationModule } from './configuration/configuration.module';
+import { DatabaseModuleTest } from './dbTest/database.module';
 import { AppGateway } from './socket/socket-test.gateway';
 import { SocketTestModule } from './socket/socket-test.module';
 import { UsersModule } from './users/users.module';
@@ -15,6 +17,7 @@ import { UsersModule } from './users/users.module';
     UsersModule,
     SocketTestModule,
     ConfigurationModule,
+    DatabaseModuleTest
   ],
   controllers: [AppController],
   providers: [AppService, AppGateway],

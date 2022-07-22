@@ -33,7 +33,6 @@ export class AppGateway implements OnGatewayInit {
 
   emitupdateUser(id: string) {
     this.server.emit('update', { id: id });
-    console.log('update back');
   }
   emitRemoveUser(id: string) {
     this.server.emit('removed-user', { id: id });
@@ -44,6 +43,5 @@ export class AppGateway implements OnGatewayInit {
 
   emitUserLogged(_id: User) {
     this.server.emit('is-logged', { _id });
-    console.log('user logado');
   }
 }

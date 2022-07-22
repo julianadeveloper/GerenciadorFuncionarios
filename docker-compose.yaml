@@ -28,6 +28,20 @@ services:
       - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
     networks:
       - api-teste
+  # db-teste:
+  #   image: mongo:4.4
+  #   #command: mongod --serviceExecutor adaptive
+  #   ports:
+  #     - 30000:27017
+  #   environment:
+  #     - MONGO_INITDB_ROOT_USERNAME=juliana
+  #     - MONGO_INITDB_ROOT_PASSWORD=root1
+  #     - MONGO_INITDB_DATABASE=funcionarios
+  #   volumes:
+  #     - mongodb_server_data:/data/db
+  #     - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
+  #   networks:
+  #     - api-teste    
 volumes:
   mongodb_server_data:
 

@@ -55,7 +55,7 @@ export class Userservice {
     user.password = await Criptography.encodePwd(user.password);
 
     const userCreate = await (await this.userModel.create(user))
-
+    console.log('cadastrei um usuario')
     this.socketGateway.emitnewUser(userCreate);
 
     return userCreate;

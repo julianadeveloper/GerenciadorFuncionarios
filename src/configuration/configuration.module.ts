@@ -17,7 +17,6 @@ const MONGOOSE_DYNAMIC_MODULE = MongooseModule.forRoot(
       useUnifiedTopology: true,
     },
     );
-    console.log(process.env.MONGODB)
 
 @Global()
 @Module({

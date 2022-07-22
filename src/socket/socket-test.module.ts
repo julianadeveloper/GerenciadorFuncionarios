@@ -4,6 +4,6 @@ import { AppGateway } from './socket-test.gateway';
 import { UsersModule } from '../users/users.module';
 
 @Module({
-  providers: [AppGateway, SocketService],
+  providers: [AppGateway],
 })
 export class SocketTestModule {}

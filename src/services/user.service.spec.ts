@@ -79,7 +79,7 @@ describe('userservice', () => {
     expect(userRepository).toBeDefined();
   });
 
-  // ListUser é uma função
+  // ListUser retorna uma função
   describe('findAll', () => {
     it('UserList retorna uma função', async () => {
       expect(userService.listUsers).toBe(userService.listUsers);

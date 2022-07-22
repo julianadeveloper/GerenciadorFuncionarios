@@ -53,11 +53,11 @@ describe('userservice', () => {
       findByIdAndUpdate: jest.fn().mockReturnValue(updateUserEntity),
       findOneAndDelete: jest.fn().mockReturnValue(undefined),
       exec: jest.fn().mockResolvedValue(userEntityList[1]),
-      afterInit: jest.fn().mockImplementation(),
-      emitRemoveUser: jest.fn().mockImplementation(),
-      emitupdateUser: jest.fn().mockImplementation(),
-      encodePwd: jest.fn().mockImplementation(),
-      on: jest.fn().mockImplementation(),
+      // afterInit: jest.fn().mockImplementation(),
+      // emitRemoveUser: jest.fn().mockImplementation(),
+      // emitupdateUser: jest.fn().mockImplementation(),
+      // encodePwd: jest.fn().mockImplementation(),
+      // on: jest.fn().mockImplementation(),
     };
     const module: TestingModule = await Test.createTestingModule({
       providers: [
@@ -132,6 +132,7 @@ describe('userservice', () => {
       const result = await userRepository.create(data);
       //utilizando variavel deu erro no hash da senha
       expect(result).toEqual(userEntityList[0]);
+      console.log(result)
       expect(userRepository.create).toHaveBeenCalledTimes(1);
     });
     it('Erro de exceção - BadRequestException', () => {
