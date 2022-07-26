@@ -1,7 +1,7 @@
 import { getModelToken } from '@nestjs/mongoose';
 import { Test, TestingModule } from '@nestjs/testing';
 import { Model } from 'mongoose';
-import { AppGateway } from '../socket/socket-test.gateway';
+import { AppGateway } from '../socket/socket.gateway';
 import { User } from '../users/shared/enitity/user';
 import { Criptography } from '../users/shared/utils/bcrypt';
 import { Userservice } from './user.service';
@@ -55,8 +55,7 @@ describe('userservice', () => {
       findOneAndDelete: jest.fn().mockReturnValue(undefined),
       exec: jest.fn().mockResolvedValue(userEntityList[1]),
       emitnewUser: jest.fn().mockImplementation(),
-      // emitupdateUser: jest.fn(),
-      // emitRemoveUser: jest.fn(),
+
     };
     const module: TestingModule = await Test.createTestingModule({
       providers: [

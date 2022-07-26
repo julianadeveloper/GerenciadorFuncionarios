@@ -4,9 +4,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { ConfigurationModule } from './configuration/configuration.module';
-import { DatabaseModuleTest } from './dbTest/database.module';
-import { AppGateway } from './socket/socket-test.gateway';
-import { SocketTestModule } from './socket/socket-test.module';
+import { AppGateway } from './socket/socket.gateway';
+import { SocketTestModule } from './socket/socket.module';
 import { UsersModule } from './users/users.module';
 //mongodb://localhost:27017/desafioback
 //'mongodb+srv://juliana:root@cluster0.1tqbr.mongodb.net/funcionarios?retryWrites=true&w=majority',
@@ -16,9 +15,7 @@ import { UsersModule } from './users/users.module';
     AuthModule,
     UsersModule,
     SocketTestModule,
-    ConfigurationModule,
-    DatabaseModuleTest
-  ],
+    ConfigurationModule,  ],
   controllers: [AppController],
   providers: [AppService, AppGateway],
 })

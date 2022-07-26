@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { Server, Socket } from 'socket.io';
-import { AppGateway } from './socket-test.gateway';
-import { SocketService } from './socket-test.service';
+import { AppGateway } from './socket.gateway';
+import { SocketService } from './socket.service';
 
 describe('AppGateway', () => {
   let appGateway: AppGateway;

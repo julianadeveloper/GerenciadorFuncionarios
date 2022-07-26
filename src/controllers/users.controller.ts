@@ -15,14 +15,14 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { ApiBody } from '@nestjs/swagger';
-import { JwtAuthGuard } from '../../auth/jwt-auth.guard';
-import { RolesGuard } from '../../auth/roles/roles.guard';
-import { createUser } from '../shared/dto/create-user.dto';
-import { getUser } from '../shared/dto/get-user.dto';
-import { updateUser } from '../shared/dto/update-user.dto';
-import { UserDto } from '../shared/dto/user.dto';
-import { User } from '../shared/enitity/user';
-import { Userservice } from '../../services/user.service';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { RolesGuard } from '../auth/roles/roles.guard';
+import { createUser } from '../users/shared/dto/create-user.dto';
+import { getUser } from '../users/shared/dto/get-user.dto';
+import { updateUser } from '../users/shared/dto/update-user.dto';
+import { UserDto } from '../users/shared/dto/user.dto';
+import { User } from '../users/shared/enitity/user';
+import { Userservice } from '../services/user.service';
 
 @Controller('users')
 export class UsersController {

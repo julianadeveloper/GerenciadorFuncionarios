@@ -2,11 +2,11 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { Module } from '@nestjs/common';
 import { UserSchema } from './schemas/user.schema';
 import { Userservice } from '../services/user.service';
-import { UsersController } from './controllers/users.controller';
+import { UsersController } from '../controllers/users.controller';
 import { RolesGuard } from '../auth/roles/roles.guard';
 import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from '../auth/constants';
-import { AppGateway } from '../socket/socket-test.gateway';
+import { AppGateway } from '../socket/socket.gateway';
 
 @Module({
   imports: [
