@@ -1,6 +1,7 @@
+import { HttpException, HttpStatus, INestApplication } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Test, TestingModule } from '@nestjs/testing';
-import { AuthService } from 'src/auth/auth.service';
+import { AuthService } from '../auth/auth.service';
 import { Userservice } from '../services/user.service';
 import { User } from '../users/shared/enitity/user';
 import { UsersController } from './users.controller';
@@ -32,30 +33,19 @@ describe('User Controller', () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [UsersController],
 
-      providers: [ JwtService,
+      providers: [
+        JwtService,
         {
           provide: Userservice,
           useValue: {
-            listUsers: jest.fn().mockResolvedValue(
-              userEntityList
-            ),
-            // getOne: jest.fn().mockImplementation((id: string) =>
-            //   Promise.resolve({
-            //     name: testCat1,
-            //     breed: testBreed1,
-            //     age: 4,
-            //     _id: id,
-            //   }),
-            // ),
-            getOneByName: jest
+            listUsers: jest.fn().mockResolvedValue(userEntityList),
+            listUserGet: jest.fn().mockResolvedValue(userEntityList[1]),
+            listUserId: jest.fn().mockReturnValue(userEntityList[0]),
+            insertOne: jest
               .fn()
               .mockImplementation((userEntityList: User) =>
                 Promise.resolve(userEntityList[0]),
               ),
-            insertOne: jest
-              .fn()
-              .mockImplementation((userEntityList: User) =>
-              Promise.resolve(userEntityList[0])              ),
             // updateOne: jest
             //   .fn()
             //   .mockImplementation((cat: CatDTO) =>
@@ -71,85 +61,54 @@ describe('User Controller', () => {
     service = module.get<Userservice>(Userservice);
   });
 
-  it('should be defined', () => {
-    expect(controller).toBeDefined();
-  });
-
-  describe('Get Users',  () => {
-    it('should get an array of cats', async () => {
-      const result =  await controller.listUsers([User])
-      // expect(result).toEqual(userEntityList)
-      console.log(result)
-      expect(result).toEqual(userEntityList);
+  describe('User Controller and Service Defined', () => {
+    it('should be controller defined', () => {
+      expect(controller).toBeDefined();
+      expect(service).toBeDefined();
     });
   });
-  // describe('Jwt', () => {
-  //   it('should get a single cat', () => {
-  //     expect(jwtService.login()).resolves.toEqual({
-  //   });
-  // });
-  // // describe('getByName', () => {
-  // //   it('should get a cat back', async () => {
-  // //     await expect(controller.getByName('Ventus')).resolves.toEqual({
-  // //       name: 'Ventus',
-  // //       breed: testBreed1,
-  // //       age: 4,
-  // //     });
-  // //     // using the really cool @golevelup/nestjs-testing module's utility function here
-  // //     // otherwise we need to pass `as any` or we need to mock all 54+ attributes of Document
-  // //     const aquaMock = createMock<Cat>({
-  // //       name: 'Aqua',
-  // //       breed: 'Maine Coon',
-  // //       age: 5,
-  // //     });
-  // //     const getByNameSpy = jest
-  // //       .spyOn(service, 'getOneByName')
-  // //       .mockResolvedValueOnce(aquaMock);
-  // //     const getResponse = await controller.getByName('Aqua');
-  // //     expect(getResponse).toEqual(aquaMock);
-  // //     expect(getByNameSpy).toBeCalledWith('Aqua');
-  // //   });
-  // // });
-  // // describe('newCat', () => {
-  // //   it('should create a new cat', () => {
-  // //     const newCatDTO: CatDTO = {
-  // //       name: 'New Cat 1',
-  // //       breed: 'New Breed 1',
-  // //       age: 4,
-  // //     };
-  // //     expect(controller.newCat(newCatDTO)).resolves.toEqual({
-  // //       _id: 'a uuid',
-  // //       ...newCatDTO,
-  // //     });
-  // //   });
-  // // });
-  // // describe('updateCat', () => {
-  // //   it('should update a new cat', () => {
-  // //     const newCatDTO: CatDTO = {
-  // //       name: 'New Cat 1',
-  // //       breed: 'New Breed 1',
-  // //       age: 4,
-  // //     };
-  // //     expect(controller.updateCat(newCatDTO)).resolves.toEqual({
-  // //       _id: 'a uuid',
-  // //       ...newCatDTO,
-  // //     });
-  // //   });
-  // // });
-  // // describe('deleteCat', () => {
-  // //   it('should return that it deleted a cat', () => {
-  // //     expect(controller.deleteCat('a uuid that exists')).resolves.toEqual({
-  // //       deleted: true,
-  // //     });
-  // //   });
-  // //   it('should return that it did not delete a cat', () => {
-  // //     const deleteSpy = jest
-  // //       .spyOn(service, 'deleteOne')
-  // //       .mockResolvedValueOnce({ deleted: false });
-  // //     expect(
-  // //       controller.deleteCat('a uuid that does not exist'),
-  // //     ).resolves.toEqual({ deleted: false });
-  // //     expect(deleteSpy).toBeCalledWith('a uuid that does not exist');
-  // //   });
-  // });
+
+  describe('Get Users', () => {
+    it('should get an array of users', async () => {
+      const result = await controller.listUsers([User]);
+      expect(result).toEqual(userEntityList);
+    });
+    it('Should be return NotFound', () => {
+      jest
+        .spyOn(controller, 'listUsers')
+        .mockRejectedValue(new HttpException('NotFound', HttpStatus.NOT_FOUND));
+      expect(controller.listUsers).rejects.toThrowError(HttpException);
+    });
+  });
+
+  describe('List User Id', () => {
+    it('should user by id', async () => {
+      const result = await controller.listUserId(userEntityList[0]._id);
+      expect(result).toEqual(userEntityList[0]);
+      expect(result).toHaveProperty('_id');
+      // console.log('find by id result', result)
+    });
+    it('Should be return NotFound', () => {
+      jest
+        .spyOn(controller, 'listUserId')
+        .mockRejectedValue(new HttpException('NotFound', HttpStatus.NOT_FOUND));
+      expect(controller.listUserId).rejects.toThrowError(HttpException);
+    });
+  });
+
+  describe('List User By Username', () => {
+    it('Should user by username', async () => {
+      const result = await controller.listUserGet(userEntityList[1].username);
+      expect(result).toEqual(userEntityList[1]);
+      expect(userEntityList[1]).toHaveProperty('username');
+      console.log('result by username:', result.username);
+    });
+
+    it('Should be return NotFound Username', () => {
+      jest
+        .spyOn(controller, 'listUserGet')
+        .mockRejectedValue(new HttpException('NotFound', HttpStatus.NOT_FOUND));
+      expect(controller.listUserGet).rejects.toThrowError(HttpException);
+    });
+  });
 });

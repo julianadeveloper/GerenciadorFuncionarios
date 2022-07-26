@@ -107,7 +107,8 @@ describe('userservice', () => {
   describe('List user by id sucessfully', () => {
     it('Return user by id', async () => {
       const result = await userRepository.findById(userEntityList[0]._id);
-      expect(result).toEqual(userEntityList[0]);
+      expect(result).toEqual(userEntityList[0])
+      expect(result).toHaveProperty('_id');
     });
   });
   it('Erro de exceção - BadRequestException', () => {
@@ -133,7 +134,6 @@ describe('userservice', () => {
       console.log(result)
       // console.log(result);
       expect(userRepository.create).toHaveBeenCalledTimes(1);
-      expect(result).toEqual(201)
 
     });
     it('Erro de exceção - BadRequestException', () => {
@@ -147,7 +147,7 @@ describe('userservice', () => {
   });
 
   describe('Update User', () => {
-    it('TEste Update', async () => {
+    it('Update sucess user', async () => {
       const data = {
         _id: 'userUpdate',
         username: 'userUpdate',

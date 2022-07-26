@@ -77,13 +77,24 @@ export class UsersController {
     @Param('id') id: string,
     @Body() userUpdate: updateUser,
   ) {
-    return await this.userService.changeUserCredentials(id, userUpdate);
+    try {
+      return await this.userService.changeUserCredentials(id, userUpdate);
+      
+    } catch (error) {
+      throw new HttpException('FORBIDDEN', HttpStatus.FORBIDDEN);
+    }
   }
 
   @UseGuards(JwtAuthGuard)
   @UseGuards(RolesGuard)
   @Delete()
   async deleteUser(@Query('ids') ids: string) {
-    return await this.userService.deleteUsers(ids.split(','));
+    try{
+      return await this.userService.deleteUsers(ids.split(','));
+
+    }catch(error){
+      throw new HttpException('FORBIDDEN', HttpStatus.FORBIDDEN);
+
+    }
   }
 }

@@ -11,9 +11,10 @@ describe('Users', () => {
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
       imports: [AppModule],
+      providers: [Userservice],
     })
-      .overrideProvider(Userservice)
-      .useValue(Userservice)
+      // .overrideProvider(Userservice)
+      // .useValue(Userservice)
       .compile();
 
     app = moduleRef.createNestApplication();
@@ -22,7 +23,7 @@ describe('Users', () => {
 
   it(`/GET users`, () => {
     return request(app.getHttpServer()).get('/users').expect(200).expect({
-      data: userService.listUserGet(''),
+      // data: userService.listUserGet(),
     });
   });
 
