@@ -35,7 +35,6 @@ export class AuthService {
     };
 
     this.socketId.emitUserLogged(user);
-    // console.log('LOGUEI');
 
     return {
       role,

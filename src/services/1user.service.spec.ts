@@ -7,7 +7,6 @@ import { User } from '../users/shared/enitity/user';
 import { Criptography } from '../users/shared/utils/bcrypt';
 import { Userservice } from './user.service';
 
-
 const userEntityList: User[] = [
   new User({
     _id: '89d58w5',
@@ -31,8 +30,8 @@ describe('userservice', () => {
   let userService: Userservice;
   let userRepository: Model<User>;
   let appGateway: AppGateway;
-  let Criptography: Criptography;
   let serverSocket: Server<ServerOptions>;
+  let Criptography: Criptography;
 
   const updateUserEntity = new User({
     _id: 'userUpdate',
@@ -53,12 +52,11 @@ describe('userservice', () => {
       findByIdAndUpdate: jest.fn().mockReturnValue(updateUserEntity),
       findOneAndDelete: jest.fn().mockReturnValue(undefined),
       exec: jest.fn().mockResolvedValue(userEntityList[1]),
-      encodePwd: jest.fn().mockImplementation(),
       // emitRemoveUser: jest.fn().mockImplementation(),
       // emitupdateUser: jest.fn().mockImplementation(),
-      // encodePwd: jest.fn().mockImplementation(),
       // on: jest.fn().mockImplementation(),
     };
+
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         Userservice,
@@ -73,7 +71,6 @@ describe('userservice', () => {
     userService = module.get<Userservice>(Userservice);
     userRepository = module.get<Model<User>>(getModelToken('User'));
     appGateway = module.get<AppGateway>(AppGateway);
-    Criptography = module.get<Criptography>(Userservice);
   });
 
   // service foi definido
@@ -107,11 +104,11 @@ describe('userservice', () => {
   describe('List user by id sucessfully', () => {
     it('Return user by id', async () => {
       const result = await userRepository.findById(userEntityList[0]._id);
-      expect(result).toEqual(userEntityList[0])
+      expect(result).toEqual(userEntityList[0]);
       expect(result).toHaveProperty('_id');
     });
   });
-  it('Erro de exceção - BadRequestException', () => {
+  it('Erro de exceção - NotFoundException', () => {
     jest
       .spyOn(userRepository, 'findById')
       .mockRejectedValueOnce(new Error('NotFoundException'));
@@ -131,17 +128,16 @@ describe('userservice', () => {
       const result = await userRepository.create(data);
       expect(result).toEqual(data);
       expect(result).toHaveProperty('_id');
-      console.log(result)
+      console.log(result);
       // console.log(result);
       expect(userRepository.create).toHaveBeenCalledTimes(1);
-
     });
     it('Erro de exceção - BadRequestException', () => {
       jest
         .spyOn(userRepository, 'findOne')
         .mockRejectedValueOnce(new Error('BadRequestException'));
       expect(userRepository.findOne).rejects.toEqual(
-       new Error('BadRequestException'),
+        new Error('BadRequestException'),
       );
     });
   });

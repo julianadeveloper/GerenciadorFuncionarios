@@ -14,7 +14,7 @@ import {
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
-import { ApiBody } from '@nestjs/swagger';
+import { ApiBody, ApiProperty } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { RolesGuard } from '../auth/roles/roles.guard';
 import { createUser } from '../users/shared/dto/create-user.dto';
@@ -29,6 +29,10 @@ export class UsersController {
   constructor(private readonly userService: Userservice) {}
 
   @ApiBody({ type: UserDto })
+  @ApiProperty({
+    example: 'Maine Coon',
+    description: 'List Users for pagefilter on frontend, using query parameter in username',
+  })
   @Get()
   async listUsers(@Query() pageFilter: any): Promise<User[]> {
     try {
@@ -57,10 +61,9 @@ export class UsersController {
   }
 
   @Post()
-  @HttpCode(204)
   // @UseGuards(RolesGuard)
   @ApiBody({ type: UserDto })
-  async registerUser(@Body() user: UserDto): Promise<createUser> {
+  async registerUser(@Body() user: createUser): Promise<createUser> {
     try {
       return await this.userService.registerUser(user);
     } catch (error) {
