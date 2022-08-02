@@ -116,7 +116,7 @@ describe('User Controller', () => {
 
   describe('Register User', () => {
     it('Register new user sucessfully', async () => {
-      const data = {
+      const data: User = {
         _id: '89d58w5',
         username: 'testUser',
         password: '123456',
@@ -142,7 +142,7 @@ describe('User Controller', () => {
 
   describe('Update User', () => {
     it('Update new data', async () => {
-      const data = {
+      const data : User = {
         _id: 'userUpdate',
         username: 'userUpdat22e',
         password: '123456',
@@ -170,7 +170,7 @@ describe('User Controller', () => {
   describe('Delete User', () => {
     it('Delete data and return undefined', async () => {
 
-      const data = {
+      const data : User = {
         _id: 'userDelet',
         username: 'userDelet',
         password: '123456',

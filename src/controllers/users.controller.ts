@@ -23,6 +23,7 @@ import { updateUser } from '../users/shared/dto/update-user.dto';
 import { UserDto } from '../users/shared/dto/user.dto';
 import { User } from '../users/shared/enitity/user';
 import { Userservice } from '../services/user.service';
+import { putUser } from 'src/users/shared/dto/user-update.dto';
 
 @Controller('users')
 export class UsersController {
@@ -76,6 +77,7 @@ export class UsersController {
   @UseGuards(RolesGuard)
   @Put(':id')
   @HttpCode(200)
+  @ApiBody({ type: putUser})
   async changeUserCredentials(
     @Param('id') id: string,
     @Body() userUpdate: updateUser,

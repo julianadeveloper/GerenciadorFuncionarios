@@ -11,7 +11,7 @@ async function bootstrap() {
     .setTitle('Api Gerenciador')
     .setDescription('Api de gerenciamento de usuarios')
     .setVersion('1.0')
-    .addTag('User')
+    .addTag('users')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);

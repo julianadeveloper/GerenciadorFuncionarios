@@ -52,9 +52,7 @@ describe('userservice', () => {
       findByIdAndUpdate: jest.fn().mockReturnValue(updateUserEntity),
       findOneAndDelete: jest.fn().mockReturnValue(undefined),
       exec: jest.fn().mockResolvedValue(userEntityList[1]),
-      // emitRemoveUser: jest.fn().mockImplementation(),
-      // emitupdateUser: jest.fn().mockImplementation(),
-      // on: jest.fn().mockImplementation(),
+
     };
 
     const module: TestingModule = await Test.createTestingModule({
@@ -159,7 +157,7 @@ describe('userservice', () => {
     });
 
     it('Erro de exceção - NotFoundExceptions', () => {
-      const data = {
+      const data: User = {
         _id: 'userUpdate',
         username: 'userUpdate',
         password: '123456',
@@ -179,7 +177,7 @@ describe('userservice', () => {
 
   describe('Delet User', () => {
     it('Delet Sucessfully', () => {
-      const data = {
+      const data: User = {
         _id: 'userUpdate',
         username: 'userUpdate',
         password: '123456',
@@ -191,7 +189,7 @@ describe('userservice', () => {
       expect(result).toBeUndefined();
     });
 
-    const data = {
+    const data: User = {
       _id: 'userUpdate',
       username: 'userUpdate',
       password: '123456',
