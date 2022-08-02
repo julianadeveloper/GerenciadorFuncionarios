@@ -1,7 +1,6 @@
 import { HttpException, HttpStatus, INestApplication } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Test, TestingModule } from '@nestjs/testing';
-import { Criptography } from 'src/users/shared/utils/bcrypt';
 import { AuthService } from '../auth/auth.service';
 import { Userservice } from '../services/user.service';
 import { User } from '../users/shared/enitity/user';
@@ -13,7 +12,7 @@ const updateUserEntity = new User({
   password: '123456',
   name: 'update',
   role: 'operador',
-  WebSocket: 'mywebsocket3',
+  email: 'teste@email.com' 
 });
 
 const userEntityList: User[] = [
@@ -23,7 +22,7 @@ const userEntityList: User[] = [
     password: '123456',
     name: 'teste1',
     role: 'operador',
-    WebSocket: 'mywebsocket1',
+    email: 'teste@email.com'
   }),
   new User({
     _id: 'd5s5529',
@@ -31,8 +30,8 @@ const userEntityList: User[] = [
     password: '123',
     name: 'teste2',
     role: 'admin',
-    WebSocket: 'mywebsocket2',
-  }),
+    email: 'teste@email.com' 
+  })
 ];
 describe('User Controller', () => {
   let controller: UsersController;
@@ -122,7 +121,7 @@ describe('User Controller', () => {
         password: '123456',
         name: 'teste1',
         role: 'operador',
-        WebSocket: 'mywebsocket1',
+        email: 'teste@email.com'
       };
       const result = await controller.registerUser(data);
 
@@ -148,7 +147,7 @@ describe('User Controller', () => {
         password: '123456',
         name: 'update',
         role: 'operador',
-        WebSocket: 'mywebsocket3',
+        email: 'teste@email.com'
       };
       const result = await controller.changeUserCredentials('userUpdate', data);
 
@@ -176,7 +175,7 @@ describe('User Controller', () => {
         password: '123456',
         name: 'update',
         role: 'operador',
-        WebSocket: 'mywebsocket3',
+        email: 'teste@email.com'
       };
       const result = await controller.deleteUser('_id');
       expect(result).toBeUndefined();

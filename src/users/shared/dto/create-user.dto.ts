@@ -10,5 +10,9 @@ export class createUser {
   @IsNotEmpty({ message: 'Preencha a senha' })
   password: string;
 
+  @IsNotEmpty({ message: 'Escolha uma regra' })
   role: string;
+
+  @IsNotEmpty({ message: 'Email obrigatório!' })
+  email: string;
 }

@@ -14,7 +14,7 @@ const userEntityList: User[] = [
     password: '123456',
     name: 'teste1',
     role: 'operador',
-    WebSocket: 'mywebsocket1',
+    email: 'teste@email.com'
   }),
   new User({
     _id: 'd5s5529',
@@ -22,7 +22,7 @@ const userEntityList: User[] = [
     password: '123',
     name: 'teste2',
     role: 'admin',
-    WebSocket: 'mywebsocket2',
+    email: 'teste@email.com'
   }),
 ];
 
@@ -39,7 +39,7 @@ describe('userservice', () => {
     password: '123456',
     name: 'update',
     role: 'operador',
-    WebSocket: 'mywebsocket3',
+    email: 'teste@email.com'
   });
 
   beforeEach(async () => {
@@ -121,7 +121,7 @@ describe('userservice', () => {
         password: '123456',
         name: 'teste1',
         role: 'operador',
-        WebSocket: 'mywebsocket1',
+        email: 'teste@email.com'
       });
       const result = await userRepository.create(data);
       expect(result).toEqual(data);
@@ -148,7 +148,7 @@ describe('userservice', () => {
         password: '123456',
         name: 'update',
         role: 'operador',
-        WebSocket: 'mywebsocket3',
+        email: 'teste@email.com'
       };
 
       const result = await userRepository.findByIdAndUpdate('userUpdate', data);
@@ -163,7 +163,7 @@ describe('userservice', () => {
         password: '123456',
         name: 'update',
         role: 'operador',
-        WebSocket: 'mywebsocket3',
+        email: 'teste@email.com'
       };
 
       jest
@@ -183,7 +183,7 @@ describe('userservice', () => {
         password: '123456',
         name: 'update',
         role: 'operador',
-        WebSocket: 'mywebsocket3',
+        email: 'teste@email.com'
       };
       const result = userRepository.findOneAndDelete(data);
       expect(result).toBeUndefined();
@@ -195,7 +195,7 @@ describe('userservice', () => {
       password: '123456',
       name: 'update',
       role: 'operador',
-      WebSocket: 'mywebsocket3',
+      email: 'teste@email.com'
     };
     it('Shloud throw a not found exception', () => {
       jest

@@ -12,4 +12,7 @@ export class putUser {
 
   @ApiProperty()
   role: string;
+  
+  @IsNotEmpty({ message: 'Email obrigatório!' })
+  email: string;
 }

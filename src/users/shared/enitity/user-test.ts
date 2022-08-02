@@ -9,6 +9,6 @@ username: 'testeDb',
 name: 'testedbName',
 password: '123',
 role: 'operador',
-WebSocket: 'mywebsocket'
+email: 'teste@email.com'
 }
 }

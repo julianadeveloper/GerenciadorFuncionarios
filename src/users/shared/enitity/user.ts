@@ -6,7 +6,7 @@ export class User {
   name: string;
   password: string;
   role: string;
-  WebSocket: string;
+  email: string;
 
 
 
@@ -16,6 +16,6 @@ export class User {
     this.username = User?.username,
     this.password = User?.password,
     this.role = User?.role
-    this.WebSocket = User?.WebSocket
+    this.email = User?.email
   }
 }

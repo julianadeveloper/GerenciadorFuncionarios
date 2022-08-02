@@ -15,5 +15,9 @@ export class UserDto {
   password: string;
 
   @ApiProperty()
-  role: string;
+  role: string
+
+  @ApiProperty()
+  @IsNotEmpty()
+  email: string;
 }
