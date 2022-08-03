@@ -92,6 +92,8 @@ export class Userservice {
         }
 
         this.socketGateway.emitRemoveUser(id);
+        console.log(id
+          )
         
       }),
     );

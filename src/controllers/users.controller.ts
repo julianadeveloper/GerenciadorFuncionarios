@@ -62,7 +62,7 @@ export class UsersController {
   }
 
   @Post()
-  // @UseGuards(RolesGuard)
+  @UseGuards(RolesGuard)
   @ApiBody({ type: UserDto })
   async registerUser(@Body() user: createUser): Promise<createUser> {
     try {
