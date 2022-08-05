@@ -23,7 +23,7 @@ export class Userservice {
   async listUsers(pageFilter: any): Promise<User[]> {
     const query = {};
     if (pageFilter.search)
-      query['username'] = { $regex: pageFilter.search, $options: 'i' };
+      query['name'] = { $regex: pageFilter.search, $options: 'i' };
     try {
       return await this.userModel.find(query, { password: 0 });
     } catch (error) {
@@ -51,7 +51,7 @@ export class Userservice {
     if (userFound) {
       throw new BadRequestException('Usuario ja existe.');
     }
-
+    
     user.password = await Criptography.encodePwd(user.password);
 
     const userCreate = await (await this.userModel.create(user))

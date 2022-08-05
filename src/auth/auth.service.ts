@@ -26,17 +26,19 @@ export class AuthService {
 
   async login(data: User) {
     const user = await this.userService.listUserGet(data.username);
-    const { _id = user._id, username, role } = user;
+    const { _id = user._id, username, role, name } = user;
 
     const payload = {
       _id,
       username,
       role,
+      name
     };
-
+    console.log(payload)
     this.socketId.emitUserLogged(user);
 
     return {
+      name,
       role,
       access_token: this.jwtService.sign(payload),
       username,

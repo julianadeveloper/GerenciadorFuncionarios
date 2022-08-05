@@ -30,10 +30,7 @@ export class UsersController {
   constructor(private readonly userService: Userservice) {}
 
   @ApiBody({ type: UserDto })
-  @ApiProperty({
-    example: 'Maine Coon',
-    description: 'List Users for pagefilter on frontend, using query parameter in username',
-  })
+  @ApiProperty({})
   @Get()
   async listUsers(@Query() pageFilter: any): Promise<User[]> {
     try {
@@ -77,14 +74,13 @@ export class UsersController {
   @UseGuards(RolesGuard)
   @Put(':id')
   @HttpCode(200)
-  @ApiBody({ type: putUser})
+  @ApiBody({ type: putUser })
   async changeUserCredentials(
     @Param('id') id: string,
     @Body() userUpdate: updateUser,
   ) {
     try {
       return await this.userService.changeUserCredentials(id, userUpdate);
-      
     } catch (error) {
       throw new HttpException('FORBIDDEN', HttpStatus.FORBIDDEN);
     }
@@ -94,12 +90,10 @@ export class UsersController {
   @UseGuards(RolesGuard)
   @Delete()
   async deleteUser(@Query('ids') ids: string) {
-    try{
+    try {
       return await this.userService.deleteUsers(ids.split(','));
-
-    }catch(error){
+    } catch (error) {
       throw new HttpException('FORBIDDEN', HttpStatus.FORBIDDEN);
-
     }
   }
 }
