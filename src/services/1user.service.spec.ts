@@ -4,7 +4,7 @@ import { Model } from 'mongoose';
 import { Server, ServerOptions } from 'socket.io';
 import { AppGateway } from '../socket/socket.gateway';
 import { User } from '../users/shared/enitity/user';
-import { Criptography } from '../users/shared/utils/bcrypt';
+// import { Criptography } from '../users/shared/utils/bcrypt';
 import { Userservice } from './user.service';
 
 const userEntityList: User[] = [
@@ -31,7 +31,7 @@ describe('userservice', () => {
   let userRepository: Model<User>;
   let appGateway: AppGateway;
   let serverSocket: Server<ServerOptions>;
-  let Criptography: Criptography;
+  // let Criptography: Criptography;
 
   const updateUserEntity = new User({
     _id: 'userUpdate',

@@ -1,7 +1,7 @@
 import {
   BadRequestException,
   Injectable,
-  NotFoundException
+  NotFoundException,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -51,11 +51,10 @@ export class Userservice {
     if (userFound) {
       throw new BadRequestException('Usuario ja existe.');
     }
-    
+
     user.password = await Criptography.encodePwd(user.password);
 
-    const userCreate = await (await this.userModel.create(user))
-    console.log('cadastrei um usuario')
+    const userCreate = await await this.userModel.create(user);
     this.socketGateway.emitnewUser(userCreate);
 
     return userCreate;
@@ -65,19 +64,21 @@ export class Userservice {
     id: String,
     userUpdate: updateUser,
   ): Promise<updateUser> {
-    userUpdate.password = await Criptography.encodePwd(userUpdate.password);
+    if (userUpdate.password) {
+      userUpdate.password = await Criptography.encodePwd(userUpdate.password);
+    }
 
     try {
       const updated = await this.userModel
-      .findByIdAndUpdate(id, userUpdate, { new: true })
-      .exec();
+        .findByIdAndUpdate(id, userUpdate)
+        .exec();
 
-    this.socketGateway.emitupdateUser('id');
-    
-    return updated;
-    } 
-    catch (error) { 
-    throw  new NotFoundException()
+      this.socketGateway.emitupdateUser('id');
+      console.log(userUpdate);
+
+      return updated;
+    } catch (error) {
+      throw new NotFoundException();
     }
   }
 
@@ -86,25 +87,21 @@ export class Userservice {
       ids.map(async (id) => {
         try {
           await this.userModel.findOneAndDelete({ _id: id }).exec();
-          
         } catch (error) {
-          throw new NotFoundException(error)
+          throw new NotFoundException(error);
         }
 
         this.socketGateway.emitRemoveUser(id);
-        console.log(id
-          )
-        
+        console.log(id);
       }),
     );
   }
   //login
   async findOne(username: string): Promise<UserDocument | undefined> {
-    try{
+    try {
       return this.userModel.findOne({ username: username });
-
-    }catch(error){
-      throw new NotFoundException(error.message)
+    } catch (error) {
+      throw new NotFoundException(error.message);
     }
   }
 }

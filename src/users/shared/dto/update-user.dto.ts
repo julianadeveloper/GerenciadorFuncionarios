@@ -10,7 +10,7 @@ export class updateUser {
   @ApiProperty()
   name: string;
   @ApiProperty()
-  @IsNotEmpty({ message: 'Preencha a senha' })
+  // @IsNotEmpty({ message: 'Preencha a senha' })
   password: string;
 
   role: string;
