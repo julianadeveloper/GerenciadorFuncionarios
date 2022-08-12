@@ -31,6 +31,7 @@ export class UsersController {
 
   @ApiBody({ type: UserDto })
   @ApiProperty({})
+  @UseGuards(JwtAuthGuard)
   @Get()
   async listUsers(@Query() pageFilter: any): Promise<User[]> {
     try {
@@ -40,6 +41,7 @@ export class UsersController {
     }
   }
   @ApiBody({ type: UserDto })
+  @UseGuards(JwtAuthGuard)
   @Get(':id')
   async listUserId(@Param('id') _id: string): Promise<User> {
     try {
@@ -49,6 +51,7 @@ export class UsersController {
     }
   }
   @ApiBody({ type: UserDto })
+  @UseGuards(JwtAuthGuard)
   @Get('username')
   async listUserGet(@Param('username') username: string): Promise<getUser> {
     try {
@@ -60,6 +63,7 @@ export class UsersController {
 
   @Post()
   @UseGuards(RolesGuard)
+  @UseGuards(JwtAuthGuard)
   @ApiBody({ type: UserDto })
   async registerUser(@Body() user: createUser): Promise<createUser> {
     try {
