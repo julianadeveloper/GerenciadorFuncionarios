@@ -24,7 +24,7 @@ export class AuthService {
     return null;
   }
 
-  async login(data: User) {
+  async login(data: User): Promise<{ name: string; role: string; access_token: string; username: string; _id: string; }> {
     const user = await this.userService.listUserGet(data.username);
     const { _id = user._id, username, role, name } = user;
 

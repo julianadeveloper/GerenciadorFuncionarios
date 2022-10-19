@@ -5,7 +5,6 @@ import {
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { throwError } from 'rxjs';
 import { AppGateway } from '../socket/socket.gateway';
 import { Criptography } from '../users/shared/utils/bcrypt';
 import { UserDocument } from '../users/schemas/user.schema';
